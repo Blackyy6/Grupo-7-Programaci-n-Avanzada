@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Proyecto_Grupo_7_Progra_Avanzada.Models
 {
@@ -28,6 +29,7 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Models
         public bool Estado { get; set; } = true;
 
         // Propiedad de Navegacion
+        [ForeignKey("IdComercio")]
         public Comercio Comercio { get; set; }
 
     }
