@@ -4,6 +4,7 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Models
 {
     public class Caja
     {
+        [Key]
         public int IdCaja { get; set; }
 
         [Required]
