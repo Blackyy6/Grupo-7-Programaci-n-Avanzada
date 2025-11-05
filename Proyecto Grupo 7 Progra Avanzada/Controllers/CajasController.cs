@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Proyecto_Grupo_7_Progra_Avanzada.Data;
 using Proyecto_Grupo_7_Progra_Avanzada.Models;
 
-namespace Proyecto_Grupo_7_Progra_Avanzada
+namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
 {
     public class CajasController : Controller
     {
@@ -54,10 +54,13 @@ namespace Proyecto_Grupo_7_Progra_Avanzada
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCaja,IdComercio,Nombre,Descripcion,TelefonoSINPE,FechaDeRegistro,FechaDeModificacion,Estado")] Caja caja)
+        public async Task<IActionResult> Create([Bind("IdComercio,Nombre,Descripcion,TelefonoSINPE,Estado")] Caja caja)
         {
             if (ModelState.IsValid)
             {
+                caja.FechaDeRegistro = DateTime.Now;
+                caja.FechaDeModificacion = null;
+
                 _context.Add(caja);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -97,6 +100,7 @@ namespace Proyecto_Grupo_7_Progra_Avanzada
             {
                 try
                 {
+                    caja.FechaDeModificacion = DateTime.Now;
                     _context.Update(caja);
                     await _context.SaveChangesAsync();
                 }

@@ -30,7 +30,7 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Models
 
         // Propiedad de Navegacion
         [ForeignKey("IdComercio")]
-        public Comercio Comercio { get; set; }
+        public Comercio? Comercio { get; set; }
 
     }
 }

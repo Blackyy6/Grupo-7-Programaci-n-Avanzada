@@ -1,71 +1,45 @@
 ﻿@model IEnumerable<Proyecto_Grupo_7_Progra_Avanzada.Models.Caja>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Cajas Registradas";
 }
 
-<h1>Index</h1>
+<h1>Cajas Registradas</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Registrar una Nueva Caja</a>
 </p>
-<table class="table">
+
+<table class="table table-striped table-hover">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdComercio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TelefonoSINPE)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeRegistro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeModificacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th></th>
+            <th>Comercio</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Teléfono SINPE</th>
+            <th>Fecha de Registro</th>
+            <th>Fecha de Modificación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdComercio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TelefonoSINPE)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeRegistro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeModificacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdCaja">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdCaja">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdCaja">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdComercio</td>
+                <td>@item.Nombre</td>
+                <td>@(item.Descripcion?.Length > 10 ? item.Descripcion.Substring(0, 10) + "..." : item.Descripcion)</td>
+                <td>@item.TelefonoSINPE</td>
+                <td>@item.FechaDeRegistro.ToString("dd/MM/yyyy")</td>
+                <td>@(item.FechaDeModificacion?.ToString("dd/MM/yyyy") ?? "-")</td>
+                <td>@(item.Estado ? "Activo" : "Inactivo")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdCaja" class="btn btn-sm btn-warning">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdCaja" class="btn btn-sm btn-info">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdCaja" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
