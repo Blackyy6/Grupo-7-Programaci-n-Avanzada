@@ -16,8 +16,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label asp-for="IdComercio" class="form-label">ID de Comercio</label>
-                        <input asp-for="IdComercio" class="form-control" placeholder="Ej: 4" />
+                        <label asp-for="IdComercio" class="form-label">Comercio Asociado</label>
+                        <select asp-for="IdComercio" class="form-control" asp-items="ViewBag.IdComercio">
+                            <option value="">-- Seleccione un comercio --</option>
+                        </select>
                         <span asp-validation-for="IdComercio" class="text-danger"></span>
                     </div>
 

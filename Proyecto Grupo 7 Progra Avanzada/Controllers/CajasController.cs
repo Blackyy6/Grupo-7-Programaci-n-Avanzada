@@ -22,7 +22,11 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
         // GET: Cajas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cajas.ToListAsync());
+            var cajas = await _context.Cajas
+                .Include(c => c.Comercio)
+                .ToListAsync();
+
+            return View(cajas);
         }
 
         // GET: Cajas/Details/5
@@ -46,7 +50,8 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
         // GET: Cajas/Create
         public IActionResult Create()
         {
-            return View();
+            ViewData["IdComercio"] = new SelectList(_context.Comercios.Where(c => c.Estado), "IdComercio", "Nombre");
+            return View();   
         }
 
         // POST: Cajas/Create
@@ -56,8 +61,11 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdComercio,Nombre,Descripcion,TelefonoSINPE,Estado")] Caja caja)
         {
+
             if (ModelState.IsValid)
             {
+
+
                 caja.FechaDeRegistro = DateTime.Now;
                 caja.FechaDeModificacion = null;
 
@@ -65,7 +73,10 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["IdComercio"] = new SelectList(_context.Comercios.Where(c => c.Estado), "IdComercio", "Nombre", caja.IdComercio);
             return View(caja);
+
         }
 
         // GET: Cajas/Edit/5
