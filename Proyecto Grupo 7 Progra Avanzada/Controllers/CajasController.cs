@@ -22,7 +22,11 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
         // GET: Cajas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cajas.ToListAsync());
+            var cajas = await _context.Cajas
+                .Include(c => c.Comercio)
+                .ToListAsync();
+
+            return View(cajas);
         }
 
         // GET: Cajas/Details/5
