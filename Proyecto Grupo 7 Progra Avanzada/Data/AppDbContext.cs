@@ -12,6 +12,8 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Data
         public DbSet<Comercio> Comercios { get; set; }
 
         public DbSet<Caja> Cajas { get; set; }
+
+        public DbSet<Bitacora> Bitacora { get; set; }
     }
 }
 

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Proyecto_Grupo_7_Progra_Avanzada.Models.Bitacora>
+
+@{
+    ViewData["Title"] = "Bitácora de Eventos";
+}
+
+<h2 class="mb-3">Bitácora de eventos</h2>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Tabla</th>
+            <th>Tipo</th>
+            <th>Fecha</th>
+            <th>Descripción</th>
+            <th>StackTrace</th>
+            <th>Datos Anteriores</th>
+            <th>Datos Posteriores</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var evento in Model)
+        {
+            <tr>
+                <td>@evento.TablaDeEvento</td>
+                <td>@evento.TipoDeEvento</td>
+                <td>@evento.FechaDeEvento.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@evento.DescripcionDeEvento</td>
+                <td style="max-width:250px; overflow:auto; white-space:pre-wrap;">@evento.StackTrace</td>
+                <td style="max-width:250px; overflow:auto; white-space:pre-wrap;">@evento.DatosAnteriores</td>
+                <td style="max-width:250px; overflow:auto; white-space:pre-wrap;">@evento.DatosPosteriores</td>
+            </tr>
+        }
+    </tbody>
+</table>
