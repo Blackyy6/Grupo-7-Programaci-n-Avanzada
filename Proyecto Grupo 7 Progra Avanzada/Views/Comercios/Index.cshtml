@@ -76,7 +76,7 @@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.IdComercio" class="btn btn-sm btn-warning">Editar</a> |
                     <a asp-action="Details" asp-route-id="@item.IdComercio" class="btn btn-sm btn-info">Detalles</a> |
-                    <a asp-action="VerCajas" asp-route-id="@item.IdComercio" class="btn btn-sm btn-secondary">Ver Cajas</a>
+                    <a asp-controller="Cajas" asp-action="Index" asp-route-id="@item.IdComercio" class="btn btn-sm btn-secondary">Ver Cajas</a>
                 </td>
             </tr>
         }
