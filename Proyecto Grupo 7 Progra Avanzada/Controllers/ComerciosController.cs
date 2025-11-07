@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -74,6 +75,21 @@ namespace Proyecto_Grupo_7_Progra_Avanzada
                 _context.Add(comercio);
                 await _context.SaveChangesAsync();
 
+                // Registrar evento en la Bitácora
+                var bitacora = new Bitacora
+                {
+                    TablaDeEvento = "Comercios",
+                    TipoDeEvento = "Registrar",
+                    FechaDeEvento = DateTime.Now,
+                    DescripcionDeEvento = $"Se registró un nuevo comercio con nombre '{comercio.Nombre}'.",
+                    DatosAnteriores = null,
+                    DatosPosteriores = JsonSerializer.Serialize(comercio)
+                };
+
+                _context.Bitacora.Add(bitacora);
+                await _context.SaveChangesAsync();
+                //----------------------------------------------------------------------------------------------
+
                 TempData["SuccessMessage"] = "Comercio registrado exitosamente.";
                 return RedirectToAction(nameof(Index));
             }
@@ -112,6 +128,20 @@ namespace Proyecto_Grupo_7_Progra_Avanzada
             // 1. Validamos que los campos enviados cumplan con los DataAnnotations (incluyendo los campos fijos ocultos)
             if (ModelState.IsValid) // <-- ESTO AHORA DEBERÍA SER TRUE
             {
+                // Guardamos los datos anteriores antes de editar
+                var datosAnteriores = await _context.Comercios
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.IdComercio == id);
+
+                if (datosAnteriores == null)
+                {
+                    return NotFound();
+                }
+                //-------------------------------------------------
+
+
+
+
                 // ... (Tu lógica de edición SetValues/Attach va aquí)
                 var comercioToUpdate = await _context.Comercios
                     .AsNoTracking()
@@ -142,6 +172,24 @@ namespace Proyecto_Grupo_7_Progra_Avanzada
                     // Si quieres que Estado se edite, asegúrate de que no esté en la lista de exclusión.
 
                     await _context.SaveChangesAsync();
+
+
+                    //Registrar evento en Bitácora
+                    var bitacora = new Bitacora
+                    {
+                        TablaDeEvento = "Comercios",
+                        TipoDeEvento = "Editar",
+                        FechaDeEvento = DateTime.Now,
+                        DescripcionDeEvento = $"Se editó el comercio con ID {comercio.IdComercio}.",
+                        DatosAnteriores = JsonSerializer.Serialize(datosAnteriores),
+                        DatosPosteriores = JsonSerializer.Serialize(comercio)
+                    };
+
+                    _context.Bitacora.Add(bitacora);
+                    await _context.SaveChangesAsync();
+                    //-----------------------------------------------------------------------------------
+
+
 
                     TempData["SuccessMessage"] = "Comercio actualizado exitosamente.";
                     return RedirectToAction(nameof(Index));
@@ -179,10 +227,30 @@ namespace Proyecto_Grupo_7_Progra_Avanzada
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var comercio = await _context.Comercios.FindAsync(id);
+            // btenemos el comercio antes de eliminarlo
+            var comercio = await _context.Comercios
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.IdComercio == id);
+            //----------------------------------------------------
+
+            // var comercio = await _context.Comercios.FindAsync(id);
             if (comercio != null)
             {
                 _context.Comercios.Remove(comercio);
+
+                // Registrar evento en la Bitácora
+                var bitacora = new Bitacora
+                {
+                    TablaDeEvento = "Comercios",
+                    TipoDeEvento = "Eliminar",
+                    FechaDeEvento = DateTime.Now,
+                    DescripcionDeEvento = $"Se eliminó el comercio con ID {comercio.IdComercio} y nombre '{comercio.Nombre}'.",
+                    DatosAnteriores = JsonSerializer.Serialize(comercio),
+                    DatosPosteriores = null
+                };
+                _context.Bitacora.Add(bitacora);
+                await _context.SaveChangesAsync();
+                //-----------------------------------------------------------------------------------------------------------------
             }
 
             await _context.SaveChangesAsync();

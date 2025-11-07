@@ -190,10 +190,32 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var caja = await _context.Cajas.FindAsync(id);
+            // Buscar la caja antes de eliminarla (datos Posteriores)
+            var caja = await _context.Cajas
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.IdCaja == id);
+            //-------------------------------------------------------------
+
+            // var caja = await _context.Cajas.FindAsync(id);
             if (caja != null)
             {
                 _context.Cajas.Remove(caja);
+
+
+                //  Registrar evento en la Bitácora
+                var bitacora = new Bitacora
+                {
+                    TablaDeEvento = "Cajas",
+                    TipoDeEvento = "Eliminar",
+                    FechaDeEvento = DateTime.Now,
+                    DescripcionDeEvento = $"Se eliminó la caja con ID {caja.IdCaja} y nombre '{caja.Nombre}'.",
+                    DatosAnteriores = JsonSerializer.Serialize(caja),
+                    DatosPosteriores = null
+                };
+
+                _context.Bitacora.Add(bitacora);
+             
+                //-------------------------------------------------------------------------------------------------
             }
 
             await _context.SaveChangesAsync();
@@ -206,3 +228,4 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
         }
     }
 }
+
