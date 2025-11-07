@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -71,6 +72,21 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
 
                 _context.Add(caja);
                 await _context.SaveChangesAsync();
+
+                // Registro en bitácora
+                var bitacora = new Bitacora
+                {
+                    TablaDeEvento = "Cajas",
+                    TipoDeEvento = "Registrar",
+                    FechaDeEvento = DateTime.Now,
+                    DescripcionDeEvento = $"Se registró una nueva caja '{caja.Nombre}'.",
+                    DatosAnteriores = null,
+                    DatosPosteriores = JsonSerializer.Serialize(caja)
+                };
+                _context.Bitacora.Add(bitacora);
+                await _context.SaveChangesAsync();
+                //----------------------------------------------------------------------------------
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -111,9 +127,29 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
             {
                 try
                 {
+                    //Guarda datos anteriores para la bitacora
+                    var datosAnteriores = await _context.Cajas
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.IdCaja == id);
+                    //-----------------------------------------
+
                     caja.FechaDeModificacion = DateTime.Now;
                     _context.Update(caja);
                     await _context.SaveChangesAsync();
+
+                    // Registrar evento en la bitácora
+                    var bitacora = new Bitacora
+                    {
+                        TablaDeEvento = "Cajas",
+                        TipoDeEvento = "Editar",
+                        FechaDeEvento = DateTime.Now,
+                        DescripcionDeEvento = $"Se editó la caja con ID {caja.IdCaja}.",
+                        DatosAnteriores = JsonSerializer.Serialize(datosAnteriores),
+                        DatosPosteriores = JsonSerializer.Serialize(caja)
+                    };
+                    _context.Bitacora.Add(bitacora);
+                    await _context.SaveChangesAsync();
+                    //--------------------------------------------------------------------
                 }
                 catch (DbUpdateConcurrencyException)
                 {

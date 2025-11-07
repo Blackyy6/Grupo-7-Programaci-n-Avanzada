@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Proyecto_Grupo_7_Progra_Avanzada.Models
 {
+    [Table("Bitacora")]
     public class Bitacora
     {
         [Key]
