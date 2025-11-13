@@ -1,0 +1,95 @@
+@model Proyecto_Grupo_7_Progra_Avanzada.Models.Configuracion
+
+@{
+    ViewData["Title"] = "Editar Configuración";
+}
+
+<h1>Editar Configuración</h1>
+
+<div class="card shadow p-4 mt-4">
+    <div class="card-header bg-warning text-dark text-center">
+        <h2 class="h4 mb-0">Editar Configuración de Comercio</h2>
+        <p class="mb-0">Comercio: @(Model.Comercio?.Nombre ?? "N/A")</p>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="IdConfiguracion" />
+            <input type="hidden" asp-for="IdComercio" />
+            <input type="hidden" asp-for="FechaDeRegistro" />
+            
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label class="form-label">Comercio</label>
+                        <p class="form-control-static form-control bg-light">@(Model.Comercio?.Nombre ?? "N/A")</p>
+                        <small class="form-text text-muted">El comercio no puede ser modificado.</small>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="TipoConfiguracion" class="form-label"></label>
+                        <select asp-for="TipoConfiguracion" class="form-control">
+                            <option value="1">1 - Plataforma</option>
+                            <option value="2">2 - Externa</option>
+                            <option value="3">3 - Ambas</option>
+                        </select>
+                        <small class="form-text text-muted">
+                            <strong>Plataforma:</strong> Sincronización mediante la aplicación web<br />
+                            <strong>Externa:</strong> Sincronización mediante API<br />
+                            <strong>Ambas:</strong> Permite ambos escenarios
+                        </small>
+                        <span asp-validation-for="TipoConfiguracion" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label asp-for="Comision" class="form-label"></label>
+                        <input asp-for="Comision" class="form-control" type="number" min="0" max="100" />
+                        <small class="form-text text-muted">Porcentaje de comisión (0-100)</small>
+                        <span asp-validation-for="Comision" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group form-check mt-4">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Estado" />
+                            <strong class="ms-2">@Html.DisplayNameFor(model => model.Estado)</strong>
+                        </label>
+                    </div>
+
+                    <div class="alert alert-info mt-3">
+                        <strong>Información:</strong><br />
+                        <small>
+                            Fecha de Registro: @Model.FechaDeRegistro.ToString("dd/MM/yyyy HH:mm")<br />
+                            @if (Model.FechaDeModificacion.HasValue)
+                            {
+                                <text>Última Modificación: @Model.FechaDeModificacion.Value.ToString("dd/MM/yyyy HH:mm")</text>
+                            }
+                            else
+                            {
+                                <text>Última Modificación: Nunca</text>
+                            }
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-4 text-center">
+                <button type="submit" class="btn btn-warning btn-lg mx-2 text-dark">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+                <a asp-action="Index" class="btn btn-secondary btn-lg mx-2">
+                    <i class="fas fa-arrow-alt-circle-left"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
