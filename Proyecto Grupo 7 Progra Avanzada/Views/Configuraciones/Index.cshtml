@@ -1,0 +1,86 @@
+@model IEnumerable<Proyecto_Grupo_7_Progra_Avanzada.Models.Configuracion>
+
+@{
+    ViewData["Title"] = "Configuraciones de Comercio";
+}
+
+<h1>Configuraciones de Comercio</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Registrar Nueva Configuración</a>
+    <a asp-controller="Comercios" asp-action="Index" class="btn btn-secondary">Volver a Comercios</a>
+</p>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No hay configuraciones registradas. <a asp-action="Create">Registrar una nueva configuración</a>
+    </div>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Comercio.Nombre)
+                </th>
+                <th>
+                    Tipo de Configuración
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Comision)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaDeRegistro)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaDeModificacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Estado)
+                </th>
+                <th>
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comercio.Nombre)
+                    </td>
+                    <td>
+                        @item.GetTipoConfiguracionTexto()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comision)%
+                    </td>
+                    <td>
+                        @item.FechaDeRegistro.ToString("dd/MM/yyyy HH:mm")
+                    </td>
+                    <td>
+                        @(item.FechaDeModificacion.HasValue ? item.FechaDeModificacion.Value.ToString("dd/MM/yyyy HH:mm") : "-")
+                    </td>
+                    <td>
+                        @(item.Estado ? "Activo" : "Inactivo")
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IdConfiguracion" class="btn btn-sm btn-warning">Editar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
