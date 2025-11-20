@@ -16,6 +16,9 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Data
         public DbSet<Bitacora> Bitacora { get; set; }
 
         public DbSet<Sinpes> Sinpes { get; set; }
+
+        public DbSet<Configuracion> Configuraciones { get; set; }
+
     }
 }
 
