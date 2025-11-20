@@ -19,6 +19,8 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Data
 
         public DbSet<Configuracion> Configuraciones { get; set; }
 
+        public DbSet<Reporte> Reportes { get; set; }
+
     }
 }
 
