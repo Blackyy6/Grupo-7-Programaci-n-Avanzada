@@ -14,9 +14,11 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
         private readonly AppDbContext _context;
         // Se asume que tu AppDbContext tiene DbSets para Comercio, Caja, SinpePago, Reporte y Configuracion
 
-        public ReportesController(AppDbContext context)
+        private readonly BitacoraController _bitacora;
+        public ReportesController(AppDbContext context, BitacoraController bitacora)
         {
             _context = context;
+            _bitacora = bitacora;
         }
 
         // ----------------------------------------------------------------------
@@ -38,6 +40,7 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
         // ----------------------------------------------------------------------
         // 2. GENERAR Y ACTUALIZAR REPORTES
         // ----------------------------------------------------------------------
+
 
         // POST: /Reportes/Generar
         [HttpPost]
@@ -106,6 +109,16 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
 
                     if (reporteExistente != null)
                     {
+
+                        //datos anteriores Bitacora
+                          var datosAnteriores = new
+                            {
+                            reporteExistente.CantidadDeCajas,
+                            reporteExistente.MontoTotalRecaudado,
+                            reporteExistente.CantidadDeSINPES,
+                            reporteExistente.MontoTotalComision
+                           };
+
                         // Si existe, ACTUALIZAR los datos
                         reporteExistente.CantidadDeCajas = telefonosCaja.Count;
                         reporteExistente.MontoTotalRecaudado = montoRecaudado;
@@ -113,6 +126,28 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
                         reporteExistente.MontoTotalComision = montoComision;
 
                         _context.Set<Reporte>().Update(reporteExistente);
+
+                        // ------------------------
+                        //   BITÁCORA (ACTUALIZAR)
+                        // ------------------------
+                      
+
+                        // Actualizar datos
+                        reporteExistente.CantidadDeCajas = telefonosCaja.Count;
+                        reporteExistente.MontoTotalRecaudado = montoRecaudado;
+                        reporteExistente.CantidadDeSINPES = cantidadSinpes;
+                        reporteExistente.MontoTotalComision = montoComision;
+
+                        await _context.SaveChangesAsync();
+
+                        await _bitacora.RegistrarEvento(
+                            "Reportes",
+                            "Actualizar",
+                            $"Se actualizó el reporte del comercio {comercio.Nombre}.",
+                            datosAnteriores,
+                            reporteExistente
+                        );
+                        //-------------------------------------------------------------------------------
                     }
                     else if (cantidadSinpes > 0 || telefonosCaja.Count > 0)
                     {
@@ -128,6 +163,18 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
                         };
 
                         _context.Set<Reporte>().Add(nuevoReporte);
+
+                        //agregar a bitacora 
+                        await _context.SaveChangesAsync();
+
+                        await _bitacora.RegistrarEvento(
+                            "Reportes",
+                            "Registrar",
+                            $"Se creó un nuevo reporte para el comercio {comercio.Nombre}.",
+                            null,
+                            nuevoReporte
+                        );
+                        //---------------------------------------------------------------------------
                     }
                 }
 
