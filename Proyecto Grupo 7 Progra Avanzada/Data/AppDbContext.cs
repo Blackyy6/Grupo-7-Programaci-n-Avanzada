@@ -21,6 +21,8 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Data
 
         public DbSet<Reporte> Reportes { get; set; }
 
+        public DbSet<Usuario> Usuarios { get; set; }
+
     }
 }
 
