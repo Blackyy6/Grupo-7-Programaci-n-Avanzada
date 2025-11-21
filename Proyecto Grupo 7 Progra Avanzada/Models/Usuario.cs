@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Proyecto_Grupo_7_Progra_Avanzada.Models
 {
-    [Table("Usuario")]
+    [Table("Usuarios")]
     public class Usuario
     {
         [Key]
