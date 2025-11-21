@@ -39,10 +39,14 @@
         cursor: pointer;
         margin-bottom: 5px;
     }
+    .toggle-btn:hover {
+        background-color: #0b5ed7;
+    }
 
-        .toggle-btn:hover {
-            background-color: #0b5ed7;
-        }
+    /* 🔹 Resaltar filas de error */
+    tr.event-error {
+        background-color: #fff3f3;
+    }
 </style>
 
 <table class="table table-striped table-bordered align-middle">
@@ -60,27 +64,50 @@
     <tbody>
         @foreach (var evento in Model)
         {
-            <tr>
-                <td>@evento.TablaDeEvento</td>
-                <td>@evento.TipoDeEvento</td>
-                <td>@evento.FechaDeEvento.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>@evento.DescripcionDeEvento</td>
+            var isError = string.Equals(evento.TipoDeEvento, "Error", StringComparison.OrdinalIgnoreCase);
+            <tr class="@(isError ? "event-error" : "")">
+                <td>@(string.IsNullOrWhiteSpace(evento.TablaDeEvento) ? "-" : evento.TablaDeEvento)</td>
                 <td>
-                    <div class="json-box">@evento.StackTrace</div>
+                    <!-- 🔹 Badge por tipo de evento -->
+                    @{
+                        var tipo = evento.TipoDeEvento?.Trim() ?? "-";
+                        var badgeClass = tipo switch
+                        {
+                            "Crear" => "bg-success",
+                            "Editar" => "bg-primary",
+                            "Eliminar" => "bg-danger",
+                            "Error" => "bg-danger",
+                            _ => "bg-secondary"
+                        };
+                    }
+                    <span class="badge @badgeClass">@tipo</span>
+                </td>
+                <td>@evento.FechaDeEvento.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@(string.IsNullOrWhiteSpace(evento.DescripcionDeEvento) ? "-" : evento.DescripcionDeEvento)</td>
+                <td>
+                    <!-- 🔹 Mostrar StackTrace solo si hay contenido y es Error -->
+                    @if (isError && !string.IsNullOrWhiteSpace(evento.StackTrace))
+                    {
+                        <div class="json-box">@evento.StackTrace</div>
+                    }
+                    else
+                    {
+                        <span class="text-muted">—</span>
+                    }
                 </td>
 
                 <!-- 🔹 DATOS ANTERIORES -->
                 <td>
                     <button type="button" class="toggle-btn" onclick="toggleJson(this)">Ver / Ocultar</button>
                     <pre class="json-box d-none"
-                         data-json='@Html.Raw(evento.DatosAnteriores?.Replace("'", "&#39;") ?? "")'></pre>
+                         data-json='@Html.Raw((evento.DatosAnteriores ?? "").Replace("'", "&#39;"))'></pre>
                 </td>
 
                 <!-- 🔹 DATOS POSTERIORES -->
                 <td>
                     <button type="button" class="toggle-btn" onclick="toggleJson(this)">Ver / Ocultar</button>
                     <pre class="json-box d-none"
-                         data-json='@Html.Raw(evento.DatosPosteriores?.Replace("'", "&#39;") ?? "")'></pre>
+                         data-json='@Html.Raw((evento.DatosPosteriores ?? "").Replace("'", "&#39;"))'></pre>
                 </td>
             </tr>
         }
@@ -94,8 +121,12 @@
         if (pre.classList.contains("d-none")) {
             try {
                 const raw = pre.dataset.json;
-                const formatted = JSON.stringify(JSON.parse(raw), null, 2);
-                pre.textContent = formatted;
+                if (!raw || raw.trim() === "") {
+                    pre.textContent = "(sin datos)";
+                } else {
+                    const formatted = JSON.stringify(JSON.parse(raw), null, 2);
+                    pre.textContent = formatted;
+                }
             } catch {
                 pre.textContent = pre.dataset.json || "(sin datos)";
             }

@@ -111,5 +111,87 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
 
             return View(sinpesDeCaja);
         }
+
+        // POST: /Sinpe/Sincronizar/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Sincronizar(int id)
+        {
+            try
+            {
+                var sinpe = await _context.Sinpes.FirstOrDefaultAsync(s => s.IdSinpe == id);
+
+                if (sinpe == null)
+                {
+                    TempData["Error"] = "El SINPE no existe.";
+                    return RedirectToAction("Index", "Cajas");
+                }
+
+                if (sinpe.Estado) // ya sincronizado
+                {
+                    TempData["Info"] = "Este SINPE ya está sincronizado.";
+                    return RedirectToAction(nameof(VerPorCaja), new { telefono = sinpe.TelefonoDestinatario });
+                }
+
+                // Guardar datos anteriores para bitácora
+                var datosAnteriores = new
+                {
+                    sinpe.IdSinpe,
+                    sinpe.Estado,
+                    sinpe.TelefonoDestinatario,
+                    sinpe.Monto,
+                    sinpe.FechaDeRegistro
+                };
+
+                // Actualizar estado
+                sinpe.Estado = true; // sincronizado
+                var datosPosteriores = new
+                {
+                    sinpe.IdSinpe,
+                    sinpe.Estado,
+                    sinpe.TelefonoDestinatario,
+                    sinpe.Monto,
+                    sinpe.FechaDeRegistro
+                };
+
+                _context.Update(sinpe);
+
+                // Registrar en Bitácora
+                var evento = new Bitacora
+                {
+                    TablaDeEvento = "Sinpes",
+                    TipoDeEvento = "Editar",
+                    FechaDeEvento = DateTime.Now,
+                    DescripcionDeEvento = $"SINPE {sinpe.IdSinpe} sincronizado en Caja {sinpe.TelefonoDestinatario}",
+                    DatosAnteriores = System.Text.Json.JsonSerializer.Serialize(datosAnteriores),
+                    DatosPosteriores = System.Text.Json.JsonSerializer.Serialize(datosPosteriores)
+                };
+
+                _context.Bitacora.Add(evento);
+
+                await _context.SaveChangesAsync();
+
+                TempData["Ok"] = "SINPE sincronizado correctamente.";
+                return RedirectToAction(nameof(VerPorCaja), new { telefono = sinpe.TelefonoDestinatario });
+            }
+            catch (Exception ex)
+            {
+                // Registrar error en Bitácora
+                var errorEvento = new Bitacora
+                {
+                    TablaDeEvento = "Sinpes",
+                    TipoDeEvento = "Error",
+                    FechaDeEvento = DateTime.Now,
+                    DescripcionDeEvento = ex.Message,
+                    StackTrace = ex.StackTrace
+                };
+
+                _context.Bitacora.Add(errorEvento);
+                await _context.SaveChangesAsync();
+
+                TempData["Error"] = "Ocurrió un error al sincronizar el SINPE.";
+                return RedirectToAction("Index", "Cajas");
+            }
+        }
     }
 }

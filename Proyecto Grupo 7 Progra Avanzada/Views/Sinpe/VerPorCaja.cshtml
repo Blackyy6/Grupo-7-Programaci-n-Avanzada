@@ -28,6 +28,7 @@
                     <th>Fecha de Registro</th>
                     <th>Descripción</th>
                     <th>Estado</th>
+                    <th>Acciones</th> <!-- 🔹 NUEVA COLUMNA -->
                 </tr>
             </thead>
             <tbody>
@@ -38,7 +39,7 @@
                         <td>@item.TelefonoOrigen</td>
                         <td>@item.NombreOrigen</td>
                         <td>
-                            <!-- Formato de moneda, ajusta si es necesario -->
+                            <!-- Formato de moneda -->
                             <span class="text-success fw-bold">₡@item.Monto.ToString("N2")</span>
                         </td>
                         <td>@item.FechaDeRegistro.ToString("dd/MM/yyyy HH:mm")</td>
@@ -51,6 +52,25 @@
                             else
                             {
                                 <span class="badge bg-warning text-dark">No Sincronizado</span>
+                            }
+                        </td>
+                        <td>
+                            @if (!item.Estado)
+                            {
+                                <!-- Botón para sincronizar -->
+                                <form asp-action="Sincronizar" asp-route-id="@item.IdSinpe" method="post" style="display:inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        <i class="fas fa-sync-alt"></i> Sincronizar
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <!-- Enlace a Bitácora filtrada -->
+                                <a asp-controller="Bitacora" asp-action="Index" asp-route-tabla="Sinpes" class="btn btn-sm btn-info">
+                                    <i class="fas fa-book"></i> Ver Bitácora
+                                </a>
                             }
                         </td>
                     </tr>
