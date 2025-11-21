@@ -76,6 +76,21 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
                 _context.Add(configuracion);
                 await _context.SaveChangesAsync();
 
+                // Registrar en bitácora
+                var bit = new Bitacora
+                {
+                    TablaDeEvento = "Configuraciones",
+                    TipoDeEvento = "Registrar",
+                    FechaDeEvento = DateTime.Now,
+                    DescripcionDeEvento = $"Se creó una configuración para el comercio {configuracion.IdComercio}.",
+                    DatosAnteriores = null,
+                    DatosPosteriores = System.Text.Json.JsonSerializer.Serialize(configuracion)
+                };
+                //---------------------------------------------------------------------------------------------------
+                _context.Bitacora.Add(bit);
+                await _context.SaveChangesAsync();
+
+
                 TempData["SuccessMessage"] = "Configuración registrada exitosamente.";
                 return RedirectToAction(nameof(Index));
             }
@@ -124,6 +139,12 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
             {
                 try
                 {
+                    //obterner la data anterior para la bitacora
+                    var beforeData = await _context.Configuraciones
+                    .AsNoTracking()
+                     .FirstOrDefaultAsync(c => c.IdConfiguracion == id);
+                    //---------------------------------------------------
+
                     // Obtener la configuración existente
                     var configuracionToUpdate = await _context.Configuraciones
                         .AsNoTracking()
@@ -151,6 +172,21 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
                     // (FechaDeModificacion ya se actualizó arriba)
 
                     await _context.SaveChangesAsync();
+
+                    // Registrar en bitacora
+                    var bit = new Bitacora
+                    {
+                        TablaDeEvento = "Configuraciones",
+                        TipoDeEvento = "Editar",
+                        FechaDeEvento = DateTime.Now,
+                        DescripcionDeEvento = $"Se editó la configuración con ID {configuracion.IdConfiguracion}.",
+                        DatosAnteriores = System.Text.Json.JsonSerializer.Serialize(beforeData),
+                        DatosPosteriores = System.Text.Json.JsonSerializer.Serialize(configuracion)
+                    };
+
+                    _context.Bitacora.Add(bit);
+                    await _context.SaveChangesAsync();
+                    //---------------------------------------------------------------------------------------------------
 
                     TempData["SuccessMessage"] = "Configuración actualizada exitosamente.";
                     return RedirectToAction(nameof(Index));

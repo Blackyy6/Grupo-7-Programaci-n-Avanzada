@@ -68,6 +68,21 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
                 _context.Sinpes.Add(pago);
                 await _context.SaveChangesAsync();
 
+                // 🔹 Registrar evento en la Bitácora
+                var bitacora = new Bitacora
+                {
+                    TablaDeEvento = "SINPE",
+                    TipoDeEvento = "Registrar",
+                    FechaDeEvento = DateTime.Now,
+                    DescripcionDeEvento = $"Se registró un pago SINPE a la caja con teléfono {pago.TelefonoDestinatario}.",
+                    DatosAnteriores = null,
+                    DatosPosteriores = System.Text.Json.JsonSerializer.Serialize(pago)
+                };
+
+                _context.Bitacora.Add(bitacora);
+                await _context.SaveChangesAsync();
+                //--------------------------------------------------------------------------------------------------------------
+
                 TempData["Ok"] = "Se realizó el pago correctamente.";
                 return RedirectToAction(nameof(Registrar));
             }

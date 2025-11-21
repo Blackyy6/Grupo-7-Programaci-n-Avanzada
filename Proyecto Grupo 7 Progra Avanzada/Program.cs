@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Proyecto_Grupo_7_Progra_Avanzada.Controllers;
 using Proyecto_Grupo_7_Progra_Avanzada.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +12,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
+
+
 // Agregar servicios MVC
 builder.Services.AddControllersWithViews();
+
+//BitacoraController como Servicio
+builder.Services.AddScoped<BitacoraController>();
 
 var app = builder.Build();
 
