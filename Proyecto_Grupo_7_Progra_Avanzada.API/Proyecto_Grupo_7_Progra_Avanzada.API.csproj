@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Proyecto_Grupo_7_Progra_Avanzada.API</RootNamespace>
+
+		<!-- Desactivar por completo static web assets en el API -->
+		<StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\\Proyecto Grupo 7 Progra Avanzada\\Proyecto Grupo 7 Progra Avanzada.csproj" />
+	</ItemGroup>
+
+</Project>
