@@ -4,45 +4,51 @@
     ViewData["Title"] = "Editar Caja";
 }
 
-<div class="card shadow p-4 mt-4">
-    <div class="card-header bg-warning text-dark text-center">
+<div class="card-gold mt-4">
+    <div class="card-gold-header text-center">
         <h1 class="h3 mb-0">Editar Caja: @Model.Nombre</h1>
-        <p class="mb-0">Solo los campos permitidos pueden ser modificados.</p>
+        <p class="mb-0 small">Solo los campos permitidos pueden ser modificados.</p>
     </div>
-    <div class="card-body">
+
+    <div class="p-4">
         <form asp-action="Edit">
             <input type="hidden" asp-for="IdCaja" />
+
             <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
 
             <div class="row">
+
                 <div class="col-md-6">
-                    <div class="form-group mb-3">
+
+                    <div class="mb-3">
                         <label asp-for="IdComercio" class="form-label">ID de Comercio</label>
-                        <p class="form-control-static form-control bg-light">@Model.IdComercio</p>
+                        <p class="form-control bg-light">@Model.IdComercio</p>
                         <input type="hidden" asp-for="IdComercio" />
                     </div>
 
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="Nombre" class="form-label">Nombre de la Caja</label>
                         <input asp-for="Nombre" class="form-control" placeholder="Ej: Caja Principal" />
                         <span asp-validation-for="Nombre" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="Descripcion" class="form-label">Descripción</label>
                         <input asp-for="Descripcion" class="form-control" placeholder="Ej: Caja ubicada en entrada principal" />
                         <span asp-validation-for="Descripcion" class="text-danger"></span>
                     </div>
+
                 </div>
 
                 <div class="col-md-6">
-                    <div class="form-group mb-3">
+
+                    <div class="mb-3">
                         <label asp-for="TelefonoSINPE" class="form-label">Teléfono SINPE</label>
                         <input asp-for="TelefonoSINPE" class="form-control" placeholder="Ej: 700100101" />
                         <span asp-validation-for="TelefonoSINPE" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="Estado" class="form-label">Estado</label>
                         <select asp-for="Estado" class="form-control">
                             <option value="true">Activo</option>
@@ -51,19 +57,25 @@
                         <span asp-validation-for="Estado" class="text-danger"></span>
                     </div>
 
+                    <!-- Fechas ocultas -->
                     <input type="hidden" asp-for="FechaDeRegistro" />
                     <input type="hidden" asp-for="FechaDeModificacion" />
+
                 </div>
+
             </div>
 
-            <div class="form-group mt-4 text-center">
-                <button type="submit" class="btn btn-warning btn-lg mx-2 text-dark">
-                    <i class="fas fa-save"></i> Guardar Cambios
+            <!-- Botones -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn-gold btn-lg mx-2">
+                    Guardar Cambios
                 </button>
-                <a asp-action="Index" class="btn btn-secondary btn-lg mx-2">
-                    <i class="fas fa-arrow-alt-circle-left"></i> Regresar al Listado
+
+                <a asp-action="Index" class="btn-gold-outline btn-lg mx-2">
+                    Regresar al Listado
                 </a>
             </div>
+
         </form>
     </div>
 </div>

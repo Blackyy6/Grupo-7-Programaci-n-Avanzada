@@ -4,18 +4,20 @@
     ViewData["Title"] = "Crear Caja";
 }
 
-<div class="card shadow p-4 mt-4">
-    <div class="card-header bg-primary text-white text-center">
+<div class="card-gold mt-4">
+    <div class="card-gold-header text-center">
         <h1 class="h3 mb-0">Registrar Nueva Caja</h1>
-        <p class="mb-0">Complete todos los campos obligatorios para continuar.</p>
+        <p class="mb-0 small">Complete todos los campos obligatorios para continuar.</p>
     </div>
-    <div class="card-body">
+
+    <div class="p-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
 
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group mb-3">
+
+                    <div class="mb-3">
                         <label asp-for="IdComercio" class="form-label">Comercio Asociado</label>
                         <select asp-for="IdComercio" class="form-control" asp-items="ViewBag.IdComercio">
                             <option value="">-- Seleccione un comercio --</option>
@@ -23,47 +25,52 @@
                         <span asp-validation-for="IdComercio" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="Nombre" class="form-label">Nombre de la Caja</label>
                         <input asp-for="Nombre" class="form-control" placeholder="Ej: Caja Principal" />
                         <span asp-validation-for="Nombre" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="Descripcion" class="form-label">Descripción</label>
                         <input asp-for="Descripcion" class="form-control" placeholder="Ej: Caja ubicada en entrada principal" />
                         <span asp-validation-for="Descripcion" class="text-danger"></span>
                     </div>
+
                 </div>
 
                 <div class="col-md-6">
-                    <div class="form-group mb-3">
+
+                    <div class="mb-3">
                         <label asp-for="TelefonoSINPE" class="form-label">Teléfono SINPE</label>
                         <input asp-for="TelefonoSINPE" class="form-control" placeholder="Ej: 700100101" />
                         <span asp-validation-for="TelefonoSINPE" class="text-danger"></span>
                     </div>
 
-                                <div class="form-group mb-3">
-                <label asp-for="Estado" class="form-label">Estado</label>
-                <select asp-for="Estado" class="form-control">
-                    <option value="true">Activo</option>
-                    <option value="false">Inactivo</option>
-                </select>
-                <span asp-validation-for="Estado" class="text-danger"></span>
-            </div>
+                    <div class="mb-3">
+                        <label asp-for="Estado" class="form-label">Estado</label>
+                        <select asp-for="Estado" class="form-control">
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                        <span asp-validation-for="Estado" class="text-danger"></span>
+                    </div>
 
+                    <!-- Campos ocultos -->
                     <input type="hidden" asp-for="FechaDeRegistro" />
                     <input type="hidden" asp-for="FechaDeModificacion" />
-                 
+
                 </div>
             </div>
 
-            <div class="form-group mt-4 text-center">
-                <button type="submit" class="btn btn-success btn-lg mx-2">
-                    <i class="fas fa-plus-circle"></i> Crear Caja
+            <!-- Botones -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn-gold btn-lg mx-2">
+                    <i class="bi bi-plus-circle"></i> Crear Caja
                 </button>
-                <a asp-action="Index" class="btn btn-secondary btn-lg mx-2">
-                    <i class="fas fa-arrow-alt-circle-left"></i> Regresar al Inicio
+
+                <a asp-action="Index" class="btn-gold-outline btn-lg mx-2">
+                    <i class="bi bi-arrow-left-circle"></i> Regresar al Inicio
                 </a>
             </div>
 
