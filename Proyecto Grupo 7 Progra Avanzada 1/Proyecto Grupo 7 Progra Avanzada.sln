@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyecto Grupo 7 Progra Avanzada", "Proyecto Grupo 7 Progra Avanzada.csproj", "{A7AB00ED-693B-49E7-8783-4673C2692090}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyecto_Grupo_7_Progra_Avanzada.API", "..\Proyecto_Grupo_7_Progra_Avanzada.API\Proyecto_Grupo_7_Progra_Avanzada.API.csproj", "{653901BA-5854-B00B-7F41-E6F2A29A81BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7AB00ED-693B-49E7-8783-4673C2692090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7AB00ED-693B-49E7-8783-4673C2692090}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7AB00ED-693B-49E7-8783-4673C2692090}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7AB00ED-693B-49E7-8783-4673C2692090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{653901BA-5854-B00B-7F41-E6F2A29A81BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{653901BA-5854-B00B-7F41-E6F2A29A81BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{653901BA-5854-B00B-7F41-E6F2A29A81BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{653901BA-5854-B00B-7F41-E6F2A29A81BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {18118C54-C9EB-404D-AE01-351D563F70E5}
+	EndGlobalSection
+EndGlobal

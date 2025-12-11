@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Proyecto Grupo 7 Progra Avanzada.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "..\\Proyecto_Grupo_7_Progra_Avanzada.API\\Proyecto_Grupo_7_Progra_Avanzada.API.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
