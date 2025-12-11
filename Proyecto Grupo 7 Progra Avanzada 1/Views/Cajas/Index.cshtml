@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Proyecto_Grupo_7_Progra_Avanzada.Models.Caja>
+
+@{
+    ViewData["Title"] = "Cajas Registradas";
+}
+
+<h1>Cajas Registradas</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Registrar una Nueva Caja</a>
+</p>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Comercio</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Teléfono SINPE</th>
+            <th>Fecha de Registro</th>
+            <th>Fecha de Modificación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Comercio?.Nombre</td>
+                <td>@item.Nombre</td>
+                <td>@(item.Descripcion?.Length > 10 ? item.Descripcion.Substring(0, 10) + "..." : item.Descripcion)</td>
+                <td>@item.TelefonoSINPE</td>
+                <td>@item.FechaDeRegistro.ToString("dd/MM/yyyy")</td>
+                <td>@(item.FechaDeModificacion?.ToString("dd/MM/yyyy") ?? "-")</td>
+                <td>@(item.Estado ? "Activo" : "Inactivo")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdCaja" class="btn btn-sm btn-warning">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdCaja" class="btn btn-sm btn-info">Detalles</a> |
+                    <a asp-controller="Sinpe" asp-action="VerPorCaja" asp-route-telefono="@item.TelefonoSINPE" class="btn btn-sm btn-success"> Ver SINPE</a> |
+                    <a class="btn btn-sm btn-info" asp-area="" asp-controller="Bitacora" asp-action="Index">Bitacora</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdCaja" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
