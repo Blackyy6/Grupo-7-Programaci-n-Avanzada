@@ -57,7 +57,7 @@
                             @if (User.IsInRole("Cajero"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Cajas" asp-action="Index">Cajas (Mis Cajas)</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Cajas" asp-action="Index">Cajas</a>
                                 </li>
                             }
 
@@ -74,10 +74,7 @@
                         }
                         else
                         {
-                            <!-- Enlaces visibles si NO está logueado -->
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
+                            
                         }
                     </ul>
 
