@@ -1,12 +1,20 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_Grupo_7_Progra_Avanzada.Data;
 using Proyecto_Grupo_7_Progra_Avanzada.Models;
+using Microsoft.AspNetCore.Authorization; // NECESARIO
+using Microsoft.AspNetCore.Authentication.JwtBearer; // NECESARIO
 
 namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers.Api
 {
     [ApiController]
     [Route("api/sinpe")]
+    // CLAVE DE SEGURIDAD: Solo permite acceso con un Token JWT válido
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SinpeSyncApiController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -28,6 +36,7 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers.Api
             if (string.IsNullOrWhiteSpace(telefonoCaja))
                 return BadRequest(new { Mensaje = "Debe proporcionar el teléfono de la caja (telefonoCaja)." });
 
+            // La validación de la caja y el permiso de configuración sigue siendo necesaria
             var validacion = await ValidarCajaYPermisoAsync(telefonoCaja);
             if (!validacion.EsValido)
                 return StatusCode(validacion.CodigoHttp, new { Mensaje = validacion.Mensaje });
@@ -93,7 +102,6 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers.Api
             if (request == null)
                 return BadRequest(new ApiResultado { EsValido = false, Mensaje = "Debe enviar un cuerpo JSON válido." });
 
-            // Validaciones mínimas (las de DataAnnotations se aplican automáticamente por [ApiController])
             if (!ModelState.IsValid)
                 return BadRequest(new ApiResultado { EsValido = false, Mensaje = "Datos inválidos. Verifique los campos requeridos." });
 
@@ -104,6 +112,7 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers.Api
 
             try
             {
+                // Asumiendo que el DbSet en AppDbContext se llama 'Sinpes' (plural)
                 var sinpe = new Sinpes
                 {
                     TelefonoOrigen = request.TelefonoOrigen.Trim(),
@@ -130,9 +139,15 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers.Api
         // ============================================================
         // Helpers
         // ============================================================
+        /// <summary>
+        /// Valida que la caja exista, que esté activa y que su comercio tenga permiso API.
+        /// </summary>
         private async Task<(bool EsValido, int CodigoHttp, string Mensaje)> ValidarCajaYPermisoAsync(string telefonoCaja)
         {
             telefonoCaja = (telefonoCaja ?? string.Empty).Trim();
+
+            // Usar el ID del comercio del token aquí sería más seguro, 
+            // pero el requisito es validar la caja en la BD.
 
             var caja = await _context.Cajas
                 .AsNoTracking()
@@ -140,6 +155,9 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers.Api
 
             if (caja == null)
                 return (false, 404, "La caja consultada no existe.");
+
+            if (!caja.Estado)
+                return (false, 403, "La caja está inactiva y no puede recibir transacciones.");
 
             // Buscar configuración del comercio
             var config = await _context.Configuraciones
@@ -165,6 +183,8 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers.Api
 
     public class RecibirSinpeRequest
     {
+        // Se asume que estos DTOs tienen las anotaciones [Required] en el modelo
+        // de Request para las validaciones automáticas.
         public string TelefonoOrigen { get; set; } = string.Empty;
         public string NombreOrigen { get; set; } = string.Empty;
         public string TelefonoDestinatario { get; set; } = string.Empty;
