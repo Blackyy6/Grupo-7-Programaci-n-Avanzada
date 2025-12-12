@@ -1,87 +1,108 @@
 @model IEnumerable<Proyecto_Grupo_7_Progra_Avanzada.Models.Sinpes>
 
 @{
-    // El nombre de la caja se pasa a través de ViewData desde el controlador
     var nombreCaja = ViewData["NombreCaja"] as string ?? "Caja Desconocida";
     ViewData["Title"] = $"Pagos SINPE de {nombreCaja}";
 }
 
-<h1 class="display-4">Pagos SINPE de @nombreCaja</h1>
-<p class="lead">Listado de todas las transacciones SINPE recibidas por esta caja.</p>
+<div class="card shadow p-4 mt-4">
 
-<div class="card shadow p-3">
-    @if (Model == null || !Model.Any())
-    {
-        <div class="alert alert-warning" role="alert">
-            <i class="fas fa-exclamation-triangle"></i> No se encontraron pagos SINPE registrados para esta caja.
-        </div>
-    }
-    else
-    {
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>ID Transacción</th>
-                    <th>Teléfono Origen</th>
-                    <th>Nombre Origen</th>
-                    <th>Monto</th>
-                    <th>Fecha de Registro</th>
-                    <th>Descripción</th>
-                    <th>Estado</th>
-                    <th>Acciones</th> <!-- 🔹 NUEVA COLUMNA -->
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+    <div class="card-header custom-card-header-info text-center">
+        <h1 class="h3 mb-0">Pagos SINPE de @nombreCaja</h1>
+        <p class="mb-0">Listado de todas las transacciones SINPE recibidas por esta caja.</p>
+    </div>
+
+    <div class="card-body">
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="alert alert-warning mt-3" role="alert">
+                <i class="fas fa-exclamation-triangle"></i> No se encontraron pagos SINPE registrados para esta caja.
+            </div>
+        }
+        else
+        {
+            <table class="table table-striped table-hover align-middle mt-3">
+                <thead class="table-dark">
                     <tr>
-                        <td>#@item.IdSinpe</td>
-                        <td>@item.TelefonoOrigen</td>
-                        <td>@item.NombreOrigen</td>
-                        <td>
-                            <!-- Formato de moneda -->
-                            <span class="text-success fw-bold">₡@item.Monto.ToString("N2")</span>
-                        </td>
-                        <td>@item.FechaDeRegistro.ToString("dd/MM/yyyy HH:mm")</td>
-                        <td>@(string.IsNullOrWhiteSpace(item.Descripcion) ? "-" : item.Descripcion)</td>
-                        <td>
-                            @if (item.Estado)
-                            {
-                                <span class="badge bg-success">Sincronizado</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-warning text-dark">No Sincronizado</span>
-                            }
-                        </td>
-                        <td>
-                            @if (!item.Estado)
-                            {
-                                <!-- Botón para sincronizar -->
-                                <form asp-action="Sincronizar" asp-route-id="@item.IdSinpe" method="post" style="display:inline">
-                                    @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-sm btn-success">
-                                        <i class="fas fa-sync-alt"></i> Sincronizar
-                                    </button>
-                                </form>
-                            }
-                            else
-                            {
-                                <!-- Enlace a Bitácora filtrada -->
-                                <a asp-controller="Bitacora" asp-action="Index" asp-route-tabla="Sinpes" class="btn btn-sm btn-info">
-                                    <i class="fas fa-book"></i> Ver Bitácora
-                                </a>
-                            }
-                        </td>
+                        <th>ID Transacción</th>
+                        <th>Teléfono Origen</th>
+                        <th>Nombre Origen</th>
+                        <th>Monto</th>
+                        <th>Fecha de Registro</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    }
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>#@item.IdSinpe</td>
+                            <td>@item.TelefonoOrigen</td>
+                            <td>@item.NombreOrigen</td>
+
+                            <td>
+                                <span class="text-success fw-bold">
+                                    ₡@item.Monto.ToString("N2")
+                                </span>
+                            </td>
+
+                            <td>@item.FechaDeRegistro.ToString("dd/MM/yyyy HH:mm")</td>
+
+                            <td>@(string.IsNullOrWhiteSpace(item.Descripcion) ? "-" : item.Descripcion)</td>
+
+                            <td>
+                                @if (item.Estado)
+                                {
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle"></i> Sincronizado
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="fas fa-clock"></i> No Sincronizado
+                                    </span>
+                                }
+                            </td>
+
+                            <td class="text-center">
+
+                                @if (!item.Estado)
+                                {
+                                    <!-- Botón para sincronizar -->
+                                    <form asp-action="Sincronizar" asp-route-id="@item.IdSinpe"
+                                          method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-success">
+                                            <i class="fas fa-sync-alt"></i> Sincronizar
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <!-- Enlace a Bitácora -->
+                                    <a asp-controller="Bitacora"
+                                       asp-action="Index"
+                                       asp-route-tabla="Sinpes"
+                                       class="btn btn-sm btn-gold">
+                                        <i class="fas fa-book"></i> Ver Bitácora
+                                    </a>
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
 </div>
 
-<div class="mt-4">
-    <a asp-action="Index" asp-controller="Cajas" class="btn btn-secondary">
+<div class="mt-4 text-center">
+    <a asp-action="Index" asp-controller="Cajas" class="btn btn-secondary btn-lg">
         <i class="fas fa-arrow-alt-circle-left"></i> Volver a Cajas
     </a>
 </div>

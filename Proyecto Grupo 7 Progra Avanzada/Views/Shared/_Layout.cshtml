@@ -19,63 +19,38 @@
 
 <body class="d-flex flex-column h-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-primary shadow-sm">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Banco Los Patitos</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-university me-2"></i>Banco Los Patitos
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-
-                    <!-- ENLACES DE MÓDULOS (AUTORIZADOS) -->
                     <ul class="navbar-nav flex-grow-1">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <!-- MÓDULOS DEL ADMINISTRADOR Y CONTADOR -->
-                            @if (User.IsInRole("Administrador") || User.IsInRole("Contador"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Comercios" asp-action="Index">Comercios</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Reportes" asp-action="Index">Reportes Mensuales</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Configuraciones" asp-action="Index">Configuraciones</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sinpe" asp-action="Registrar">Registrar SINPE</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Bitacora" asp-action="Index">Bitacora</a>
-                                </li>
-                            }
-
-                            <!-- MÓDULOS DEL CAJERO -->
-                            @if (User.IsInRole("Cajero"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Cajas" asp-action="Index">Cajas</a>
-                                </li>
-                            }
-
-                            <!-- MÓDULOS DEL ADMINISTRADOR EXCLUSIVAMENTE (Usuarios y Reserva de liquidez) -->
-                            @if (User.IsInRole("Administrador"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="ReservaLiquidez" asp-action="Index">Reserva Liquidez</a>
-                                </li>
-                            }
-                        }
-                        else
-                        {
-                            
-                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Comercios" asp-action="Index">Comercio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cajas" asp-action="Index">Cajas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Bitacora" asp-action="Index">Bitacora</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Sinpe" asp-action="Registrar">Registrar SINPE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Configuraciones" asp-action="Index">Configuraciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Reportes" asp-action="Index">Reportes Mensuales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+                        </li>
                     </ul>
 
                     <!-- PUNTO CLAVE: INCLUIR LA VISTA PARCIAL DE LOGIN/LOGOUT -->
@@ -93,11 +68,11 @@
         </main>
     </div>
 
-    <footer class="footer mt-auto py-3 border-top text-muted bg-light">
+    <footer class="footer-gold mt-auto border-top ">
         <div class="container">
             &copy; @DateTime.Now.Year - Banco Los Patitos - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </foot>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
