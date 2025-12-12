@@ -4,31 +4,25 @@
     ViewData["Title"] = "Crear Comercio";
 }
 
-<div class="card-gold mt-4">
-    <div class="card-header text-center">
-        <h1 class="h3 mb-0 text-gold-900">Registrar Nuevo Comercio</h1>
-        <p class="mb-0 text-gold-700">Complete todos los campos obligatorios para continuar.</p>
+<div class="card shadow p-4 mt-4">
+    <div class="card-header bg-primary text-white text-center">
+        <h1 class="h3 mb-0">Registrar Nuevo Comercio</h1>
+        <p class="mb-0">Complete todos los campos obligatorios para continuar.</p>
     </div>
-
     <div class="card-body">
-
         <form asp-action="Create">
-
-            <!-- Validaciones -->
-            <div asp-validation-summary="ModelOnly" class="alert-gold mb-4"></div>
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
 
             <div class="row">
-
-                <!-- Columna izquierda -->
                 <div class="col-md-6">
 
-                    <div class="mb-3">
+                    <div class="form-group mb-3">
                         <label asp-for="Identificacion" class="form-label"></label>
                         <input asp-for="Identificacion" class="form-control" placeholder="Número de Identificación" />
                         <span asp-validation-for="Identificacion" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group mb-3">
                         <label asp-for="TipoIdentificacion" class="form-label">Tipo de Identificación</label>
                         <select asp-for="TipoIdentificacion" class="form-control">
                             <option value="">-- Seleccione el tipo de identificación --</option>
@@ -38,13 +32,13 @@
                         <span asp-validation-for="TipoIdentificacion" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group mb-3">
                         <label asp-for="Nombre" class="form-label"></label>
                         <input asp-for="Nombre" class="form-control" placeholder="Nombre completo o razón social" />
                         <span asp-validation-for="Nombre" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group mb-3">
                         <label asp-for="TipoDeComercio" class="form-label">Tipo de Comercio</label>
                         <select asp-for="TipoDeComercio" class="form-control">
                             <option value="">-- Seleccione el tipo de comercio --</option>
@@ -55,52 +49,42 @@
                         </select>
                         <span asp-validation-for="TipoDeComercio" class="text-danger"></span>
                     </div>
-
                 </div>
 
-                <!-- Columna derecha -->
                 <div class="col-md-6">
-
-                    <div class="mb-3">
+                    <div class="form-group mb-3">
                         <label asp-for="Telefono" class="form-label"></label>
                         <input asp-for="Telefono" class="form-control" placeholder="Ej: 8888-8888" />
                         <span asp-validation-for="Telefono" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group mb-3">
                         <label asp-for="CorreoElectronico" class="form-label"></label>
                         <input asp-for="CorreoElectronico" class="form-control" placeholder="correo@dominio.com" />
                         <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group mb-3">
                         <label asp-for="Direccion" class="form-label"></label>
-                        <textarea asp-for="Direccion" class="form-control" rows="4"
-                                  placeholder="Detalle de la dirección física"></textarea>
+                        <textarea asp-for="Direccion" class="form-control" rows="4" placeholder="Detalle de la dirección física"></textarea>
                         <span asp-validation-for="Direccion" class="text-danger"></span>
                     </div>
 
                     <input type="hidden" asp-for="FechaDeRegistro" />
                     <input type="hidden" asp-for="FechaDeModificacion" />
                     <input type="hidden" asp-for="Estado" value="True" />
-
                 </div>
-
             </div>
 
-            <!-- Botones -->
-            <div class="text-center mt-4">
-                <button type="submit" class="btn-gold btn-lg mx-2">
-                    <i class="bi bi-plus-circle"></i> Crear Comercio
+            <div class="form-group mt-4 text-center">
+                <button type="submit" class="btn btn-success btn-lg mx-2">
+                    <i class="fas fa-plus-circle"></i> Crear Comercio
                 </button>
-
-                <a asp-action="Index" class="btn-gold-outline btn-lg mx-2">
-                    <i class="bi bi-arrow-left-circle"></i> Regresar al Inicio
+                <a asp-action="Index" class="btn btn-secondary btn-lg mx-2">
+                    <i class="fas fa-arrow-alt-circle-left"></i> Regresar al Inicio
                 </a>
             </div>
-
         </form>
-
     </div>
 </div>
 

@@ -4,103 +4,82 @@
     ViewData["Title"] = "Comercios Registrados";
 }
 
-<div class="container mt-4">
+<h1>Comercios Registrados</h1>
 
-    <h1 class="text-gold-700 mb-4">Comercios Registrados</h1>
-
-    <div class="d-flex gap-2 mb-3">
-
-        <!-- Botón principal -->
-        <a asp-action="Create" class="btn btn-gold">
-            <i class="bi bi-plus-circle"></i> Crear Nuevo Comercio
-        </a>
-
-        <!-- Botón secundario -->
-        <a asp-controller="Configuraciones" asp-action="Index" class="btn btn-gold-outline">
-            <i class="bi bi-sliders"></i> Configuraciones de Comercio
-        </a>
-
-    </div>
-
-    <div class="card-gold">
-        <div class="card-body p-0">
-
-            <table class="app-table">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.Identificacion)</th>
-                        <th>Tipo de Identificación</th>
-                        <th>@Html.DisplayNameFor(model => model.Nombre)</th>
-                        <th>Tipo de Comercio</th>
-                        <th>@Html.DisplayNameFor(model => model.Telefono)</th>
-                        <th>@Html.DisplayNameFor(model => model.CorreoElectronico)</th>
-                        <th>Estado</th>
-                        <th class="text-center">Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.Identificacion</td>
-                            <td>@(item.TipoIdentificacion == 1 ? "Física" : "Jurídica")</td>
-                            <td>@item.Nombre</td>
-
-                            <td>
-                                @{
-                                    string tipoComercio = item.TipoDeComercio switch
-                                    {
-                                        1 => "Restaurantes",
-                                        2 => "Supermercados",
-                                        3 => "Ferreterías",
-                                        4 => "Otros",
-                                        _ => "No Definido"
-                                    };
-                                    @tipoComercio
-                                    ;
-                                }
-                            </td>
-
-                            <td>@item.Telefono</td>
-                            <td>@item.CorreoElectronico</td>
-
-                            <td>
-                                <span class="badge @(item.Estado ? "bg-success" : "bg-danger")">
-                                    @(item.Estado ? "Activo" : "Inactivo")
-                                </span>
-                            </td>
-
-                            <td class="text-center">
-                                <div class="btn-group">
-
-                                    <!-- Editar -->
-                                    <a asp-action="Edit" asp-route-id="@item.IdComercio"
-                                       class="btn btn-sm btn-gold">
-                                        Editar
-                                    </a>
-
-                                    <!-- Detalles -->
-                                    <a asp-action="Details" asp-route-id="@item.IdComercio"
-                                       class="btn btn-sm btn-gold-outline">
-                                        Detalles
-                                    </a>
-
-                                    <!-- Ver Cajas -->
-                                    <a asp-controller="Cajas" asp-action="Index" asp-route-id="@item.IdComercio"
-                                       class="btn btn-sm btn-secondary">
-                                        Ver Cajas
-                                    </a>
-
-                                </div>
-                            </td>
-                        </tr>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear un Nuevo Comercio</a>
+    <a asp-controller="Configuraciones" asp-action="Index" class="btn btn-info">Configuraciones de Comercio</a>
+</p>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Identificacion)
+            </th>
+            <th>
+                Tipo de Identificación
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                Tipo de Comercio
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CorreoElectronico)
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Identificacion)
+                </td>
+                <td>
+                    @(item.TipoIdentificacion == 1 ? "Física" : "Jurídica")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @{
+                        string tipoComercio = item.TipoDeComercio switch
+                        {
+                            1 => "Restaurantes",
+                            2 => "Supermercados",
+                            3 => "Ferreterías",
+                            4 => "Otros",
+                            _ => "No Definido"
+                        };
+                        @tipoComercio
                     }
-                </tbody>
-
-            </table>
-
-        </div>
-    </div>
-
-</div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CorreoElectronico)
+                </td>
+                <td>
+                    @(item.Estado ? "Activo" : "Inactivo")
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdComercio" class="btn btn-sm btn-warning">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdComercio" class="btn btn-sm btn-info">Detalles</a> |
+                    <a asp-controller="Cajas" asp-action="Index" asp-route-id="@item.IdComercio" class="btn btn-sm btn-secondary">Ver Cajas</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

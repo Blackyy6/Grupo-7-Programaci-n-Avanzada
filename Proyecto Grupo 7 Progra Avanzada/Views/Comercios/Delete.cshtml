@@ -4,35 +4,43 @@
     ViewData["Title"] = "Eliminar Comercio";
 }
 
-<div class="card custom-card border-danger mt-4">
-    <div class="card-header custom-card-header-danger text-center">
+<div class="card shadow p-4 mt-4 border-danger">
+    <div class="card-header bg-danger text-white text-center">
         <h1 class="h3 mb-0">Eliminar Comercio</h1>
     </div>
-
     <div class="card-body">
-
         <h3 class="text-danger text-center mb-4">
-            <i class="fas fa-exclamation-triangle"></i>
-            ¿Está seguro que desea eliminar permanentemente el comercio <strong>@Model.Nombre</strong>?
+            <i class="fas fa-exclamation-triangle"></i> ¿Está seguro que desea eliminar permanentemente el comercio **@Model.Nombre**?
         </h3>
-
         <hr />
 
-        <dl class="row custom-dl">
+        <dl class="row">
 
-            <dt class="col-sm-4 custom-dt">@Html.DisplayNameFor(model => model.Identificacion)</dt>
-            <dd class="col-sm-8 custom-dd">@Html.DisplayFor(model => model.Identificacion)</dd>
+            <dt class="col-sm-4 text-dark">
+                @Html.DisplayNameFor(model => model.Identificacion)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Identificacion)
+            </dd>
 
-            <dt class="col-sm-4 custom-dt">Tipo de Identificación</dt>
-            <dd class="col-sm-8 custom-dd">
+            <dt class="col-sm-4 text-dark">
+                Tipo de Identificación
+            </dt>
+            <dd class="col-sm-8">
                 @(Model.TipoIdentificacion == 1 ? "Física (Cédula)" : "Jurídica (Cédula Jurídica)")
             </dd>
 
-            <dt class="col-sm-4 custom-dt">@Html.DisplayNameFor(model => model.Nombre)</dt>
-            <dd class="col-sm-8 custom-dd">@Html.DisplayFor(model => model.Nombre)</dd>
+            <dt class="col-sm-4 text-dark">
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
 
-            <dt class="col-sm-4 custom-dt">Tipo de Comercio</dt>
-            <dd class="col-sm-8 custom-dd">
+            <dt class="col-sm-4 text-dark">
+                Tipo de Comercio
+            </dt>
+            <dd class="col-sm-8">
                 @{
                     string tipoComercioDetalles = Model.TipoDeComercio switch
                     {
@@ -42,53 +50,64 @@
                         4 => "Otros",
                         _ => "No Definido"
                     };
+                    @tipoComercioDetalles
                 }
-                @tipoComercioDetalles
             </dd>
 
-            <dt class="col-sm-4 custom-dt">@Html.DisplayNameFor(model => model.Telefono)</dt>
-            <dd class="col-sm-8 custom-dd">@Html.DisplayFor(model => model.Telefono)</dd>
-
-            <dt class="col-sm-4 custom-dt">@Html.DisplayNameFor(model => model.CorreoElectronico)</dt>
-            <dd class="col-sm-8 custom-dd">@Html.DisplayFor(model => model.CorreoElectronico)</dd>
-
-            <dt class="col-sm-4 custom-dt">@Html.DisplayNameFor(model => model.Direccion)</dt>
-            <dd class="col-sm-8 custom-dd">@Html.DisplayFor(model => model.Direccion)</dd>
-
-            <dt class="col-sm-4 custom-dt">@Html.DisplayNameFor(model => model.FechaDeRegistro)</dt>
-            <dd class="col-sm-8 custom-dd">@Model.FechaDeRegistro.ToString("dd/MM/yyyy HH:mm")</dd>
-
-            <dt class="col-sm-4 custom-dt">@Html.DisplayNameFor(model => model.FechaDeModificacion)</dt>
-            <dd class="col-sm-8 custom-dd">
-                @(Model.FechaDeModificacion.HasValue
-                                ? Model.FechaDeModificacion.Value.ToString("dd/MM/yyyy HH:mm")
-                                : "N/A")
+            <dt class="col-sm-4 text-dark">
+                @Html.DisplayNameFor(model => model.Telefono)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Telefono)
             </dd>
 
-            <dt class="col-sm-4 custom-dt">@Html.DisplayNameFor(model => model.Estado)</dt>
-            <dd class="col-sm-8 custom-dd">
+            <dt class="col-sm-4 text-dark">
+                @Html.DisplayNameFor(model => model.CorreoElectronico)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.CorreoElectronico)
+            </dd>
+
+            <dt class="col-sm-4 text-dark">
+                @Html.DisplayNameFor(model => model.Direccion)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Direccion)
+            </dd>
+
+            <dt class="col-sm-4 text-dark">
+                @Html.DisplayNameFor(model => model.FechaDeRegistro)
+            </dt>
+            <dd class="col-sm-8">
+                @Model.FechaDeRegistro.ToString("dd/MM/yyyy HH:mm")
+            </dd>
+
+            <dt class="col-sm-4 text-dark">
+                @Html.DisplayNameFor(model => model.FechaDeModificacion)
+            </dt>
+            <dd class="col-sm-8">
+                @(Model.FechaDeModificacion.HasValue? Model.FechaDeModificacion.Value.ToString("dd/MM/yyyy HH:mm") : "N/A")
+            </dd>
+
+            <dt class="col-sm-4 text-dark">
+                @Html.DisplayNameFor(model => model.Estado)
+            </dt>
+            <dd class="col-sm-8">
                 @(Model.Estado
                                 ? Html.Raw("<span class='badge bg-success'><i class='fas fa-check-circle'></i> Activo</span>")
                                 : Html.Raw("<span class='badge bg-danger'><i class='fas fa-times-circle'></i> Inactivo</span>"))
             </dd>
-
         </dl>
-
     </div>
-
     <div class="card-footer text-center">
-
         <form asp-action="Delete">
             <input type="hidden" asp-for="IdComercio" />
-
-            <button type="submit" class="btn btn-danger btn-lg custom-btn-danger mx-2">
+            <button type="submit" value="Delete" class="btn btn-danger btn-lg mx-2">
                 <i class="fas fa-trash-alt"></i> Confirmar Eliminación
             </button>
-
-            <a asp-action="Index" class="btn btn-secondary btn-lg custom-btn-secondary mx-2">
+            <a asp-action="Index" class="btn btn-secondary btn-lg mx-2">
                 <i class="fas fa-arrow-alt-circle-left"></i> Cancelar y Volver
             </a>
         </form>
-
     </div>
 </div>

@@ -4,23 +4,17 @@
     ViewData["Title"] = "Eliminar Caja";
 }
 
-<div class="card-gold mt-4 border-danger" style="border-width: 2px !important;">
-    <div class="card-gold-header text-center bg-danger text-white">
+<div class="card shadow p-4 mt-4 border-danger">
+    <div class="card-header bg-danger text-white text-center">
         <h1 class="h3 mb-0">Eliminar Caja</h1>
     </div>
-
-    <div class="p-4">
-
-        <h3 class="text-danger text-center mb-4 fw-bold">
-            <i class="fas fa-exclamation-triangle"></i>
-            ¿Está seguro que desea eliminar permanentemente la caja
-            <strong>@Model.Nombre</strong>?
+    <div class="card-body">
+        <h3 class="text-danger text-center mb-4">
+            <i class="fas fa-exclamation-triangle"></i> ¿Está seguro que desea eliminar permanentemente la caja <strong>@Model.Nombre</strong>?
         </h3>
-
         <hr />
 
         <dl class="row">
-
             <dt class="col-sm-4 text-dark">ID de Comercio</dt>
             <dd class="col-sm-8">@Model.IdComercio</dd>
 
@@ -39,37 +33,28 @@
             <dt class="col-sm-4 text-dark">Fecha de Modificación</dt>
             <dd class="col-sm-8">
                 @(Model.FechaDeModificacion.HasValue
-                                ? Model.FechaDeModificacion.Value.ToString("dd/MM/yyyy HH:mm")
-                                : "N/A")
+                    ? Model.FechaDeModificacion.Value.ToString("dd/MM/yyyy HH:mm")
+                    : "N/A")
             </dd>
 
             <dt class="col-sm-4 text-dark">Estado</dt>
             <dd class="col-sm-8">
                 @(Model.Estado
-                                ? Html.Raw("<span class='badge bg-success'><i class='fas fa-check-circle'></i> Activo</span>")
-                                : Html.Raw("<span class='badge bg-danger'><i class='fas fa-times-circle'></i> Inactivo</span>"))
+                    ? Html.Raw("<span class='badge bg-success'><i class='fas fa-check-circle'></i> Activo</span>")
+                    : Html.Raw("<span class='badge bg-danger'><i class='fas fa-times-circle'></i> Inactivo</span>"))
             </dd>
-
         </dl>
-
     </div>
-
-    <div class="card-gold-footer text-center">
-
+    <div class="card-footer text-center">
         <form asp-action="Delete">
-
             <input type="hidden" asp-for="IdCaja" />
-
             <button type="submit" class="btn btn-danger btn-lg mx-2">
-                 Confirmar Eliminación
+                <i class="fas fa-trash-alt"></i> Confirmar Eliminación
             </button>
-
-            <a asp-action="Index" class="btn-gold-outline btn-lg mx-2">
-                Cancelar y Volver
+            <a asp-action="Index" class="btn btn-secondary btn-lg mx-2">
+                <i class="fas fa-arrow-alt-circle-left"></i> Cancelar y Volver
             </a>
-
         </form>
-
     </div>
 </div>
 

@@ -4,104 +4,44 @@
     ViewData["Title"] = "Cajas Registradas";
 }
 
-<div class="container mt-4">
+<h1>Cajas Registradas</h1>
 
-    <h1 class="section-title mb-4">Cajas Registradas</h1>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Registrar una Nueva Caja</a>
+</p>
 
-    <div class="d-flex gap-2 mb-3">
-        <a asp-action="Create" class="btn btn-gold">
-            <i class="bi bi-plus-circle"></i> Registrar Nueva Caja
-        </a>
-
-        <a asp-controller="Comercios" asp-action="Index" class="btn btn-outline-secondary">
-            <i class="bi bi-shop"></i> Volver a Comercios
-        </a>
-    </div>
-
-    <div class="card shadow-sm rounded-4">
-        <div class="card-body p-0">
-            <table class="app-table">
-                <thead>
-                    <tr>
-                        <th>Comercio</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Teléfono SINPE</th>
-                        <th>Fecha de Registro</th>
-                        <th>Fecha de Modificación</th>
-                        <th>Estado</th>
-                        <th class="text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.Comercio?.Nombre</td>
-
-                            <td>@item.Nombre</td>
-
-                            <td>
-                                @(item.Descripcion?.Length > 20
-                                                            ? item.Descripcion.Substring(0, 20) + "..."
-                                                            : item.Descripcion)
-                        </td>
-
-                            <td>@item.TelefonoSINPE</td>
-
-                            <td>@item.FechaDeRegistro.ToString("dd/MM/yyyy")</td>
-
-                            <td>@(item.FechaDeModificacion?.ToString("dd/MM/yyyy") ?? "—")</td>
-
-                            <td>
-                                <span class="badge @(item.Estado ? "bg-success" : "bg-danger")">
-                                    @(item.Estado ? "Activo" : "Inactivo")
-                                </span>
-                            </td>
-
-                            <td class="text-center">
-                                <div class="btn-group">
-
-                                    <a asp-action="Edit"
-                                       asp-route-id="@item.IdCaja"
-                                       class="btn btn-sm btn-gold">
-                                        Editar
-                                    </a>
-
-                                    <a asp-action="Details"
-                                       asp-route-id="@item.IdCaja"
-                                       class="btn btn-sm btn-gold-outline">
-                                        Detalles
-                                    </a>
-
-                                    <a asp-controller="Sinpe"
-                                       asp-action="VerPorCaja"
-                                       asp-route-telefono="@item.TelefonoSINPE"
-                                       class="btn btn-sm btn-gold-outline">
-                                        SINPE
-                                    </a>
-
-                                    <a asp-area=""
-                                       asp-controller="Bitacora"
-                                       asp-action="Index"
-                                       class="btn btn-sm btn-secondary">
-                                        Bitácora
-                                    </a>
-
-                                    <a asp-action="Delete"
-                                       asp-route-id="@item.IdCaja"
-                                       class="btn btn-sm btn-danger">
-                                        Eliminar
-                                    </a>
-
-                                </div>
-                            </td>
-
-                        </tr>
-                                        }
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-</div>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Comercio</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Teléfono SINPE</th>
+            <th>Fecha de Registro</th>
+            <th>Fecha de Modificación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Comercio?.Nombre</td>
+                <td>@item.Nombre</td>
+                <td>@(item.Descripcion?.Length > 10 ? item.Descripcion.Substring(0, 10) + "..." : item.Descripcion)</td>
+                <td>@item.TelefonoSINPE</td>
+                <td>@item.FechaDeRegistro.ToString("dd/MM/yyyy")</td>
+                <td>@(item.FechaDeModificacion?.ToString("dd/MM/yyyy") ?? "-")</td>
+                <td>@(item.Estado ? "Activo" : "Inactivo")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdCaja" class="btn btn-sm btn-warning">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdCaja" class="btn btn-sm btn-info">Detalles</a> |
+                    <a asp-controller="Sinpe" asp-action="VerPorCaja" asp-route-telefono="@item.TelefonoSINPE" class="btn btn-sm btn-success"> Ver SINPE</a> |
+                    <a class="btn btn-sm btn-info" asp-area="" asp-controller="Bitacora" asp-action="Index">Bitacora</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdCaja" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
