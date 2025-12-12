@@ -4,6 +4,40 @@
     ViewData["Title"] = "Bitácora de Eventos";
 }
 
+<style>
+    /* Estilos para que el JSON se vea bien */
+    .json-box {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        padding: 5px;
+        margin-top: 5px;
+        overflow-x: auto;
+        white-space: pre-wrap; /* Mantiene el formato JSON */
+        font-size: 0.8rem;
+        border-radius: 4px;
+        max-height: 200px;
+    }
+
+    .event-error {
+        background-color: #f8d7da; /* Fondo rojo suave para errores */
+    }
+
+    .btn-gold-outline {
+        border: 1px solid #9f795d;
+        color: #9f795d;
+        background-color: transparent;
+        border-radius: 4px;
+        padding: 3px 8px;
+        font-size: 0.8rem;
+        cursor: pointer;
+    }
+
+        .btn-gold-outline:hover {
+            background-color: #9f795d;
+            color: white;
+        }
+</style>
+
 <h2 class="page-title mb-4">Bitácora de eventos</h2>
 
 <table class="table table-striped table-bordered align-middle custom-table">
@@ -21,6 +55,7 @@
     <tbody>
         @foreach (var evento in Model)
         {
+            // Corregimos la propiedad:
             var isError = string.Equals(evento.TipoDeEvento, "Error", StringComparison.OrdinalIgnoreCase);
 
             <tr class="@(isError ? "event-error" : "")">
@@ -61,14 +96,14 @@
                 <td>
                     <button type="button" class="btn-gold-outline mx-2" onclick="toggleJson(this)">Ver / Ocultar</button>
                     <pre class="json-box d-none"
-                         data-json='@Html.Raw((evento.DatosAnteriores ?? "").Replace("'", "&#39;"))'></pre>
+                                      data-json='@Html.Raw((evento.DatosAnteriores ?? "").Replace("'", "&#39;"))'></pre>
                 </td>
 
                 @* Datos Posteriores *@
                 <td>
                     <button type="button" class="btn-gold-outline mx-2" onclick="toggleJson(this)">Ver / Ocultar</button>
                     <pre class="json-box d-none"
-                         data-json='@Html.Raw((evento.DatosPosteriores ?? "").Replace("'", "&#39;"))'></pre>
+                                      data-json='@Html.Raw((evento.DatosPosteriores ?? "").Replace("'", "&#39;"))'></pre>
                 </td>
             </tr>
         }
@@ -89,7 +124,7 @@
                     pre.textContent = formatted;
                 }
             } catch {
-                pre.textContent = pre.dataset.json || "(sin datos)";
+                pre.textContent = pre.dataset.json || "(JSON inválido)";
             }
             pre.classList.remove("d-none");
             button.textContent = "Ocultar";

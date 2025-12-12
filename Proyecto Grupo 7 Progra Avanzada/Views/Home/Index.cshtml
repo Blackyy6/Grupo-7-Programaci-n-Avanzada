@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+
+@{
     ViewData["Title"] = "Panel de Control";
 }
 
@@ -10,33 +12,64 @@
 <div class="container mt-5">
     <div class="row g-4 justify-content-center">
 
-        <div class="col-12 col-md-4">
-            <a href="/Comercios" class="btn btn-gold w-100 py-3 fs-5">Comercios</a>
-        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            // -----------------------------------------------------------------
+            // 1. MÓDULOS DE ADMINISTRADOR y CONTADOR
+            // -----------------------------------------------------------------
+            @if (User.IsInRole("Administrador") || User.IsInRole("Contador"))
+            {
+                <div class="col-12 col-md-4">
+                    <a asp-controller="Comercios" asp-action="Index" class="btn btn-gold w-100 py-3 fs-5">Comercios</a>
+                </div>
 
-        <div class="col-12 col-md-4">
-            <a href="/Cajas" class="btn btn-gold w-100 py-3 fs-5">Cajas</a>
-        </div>
+                <div class="col-12 col-md-4">
+                    <a asp-controller="Bitacora" asp-action="Index" class="btn btn-gold w-100 py-3 fs-5">Bitácora</a>
+                </div>
 
-        <div class="col-12 col-md-4">
-            <a href="/Bitacora" class="btn btn-gold w-100 py-3 fs-5">Bitácora</a>
-        </div>
+                <div class="col-12 col-md-4">
+                    <a asp-controller="Sinpe" asp-action="Registrar" class="btn btn-gold w-100 py-3 fs-5">Registrar SINPE</a>
+                </div>
 
-        <div class="col-12 col-md-4">
-            <a href="/Sinpe/Registrar" class="btn btn-gold w-100 py-3 fs-5">Registrar SINPE</a>
-        </div>
+                <div class="col-12 col-md-4">
+                    <a asp-controller="Configuraciones" asp-action="Index" class="btn btn-gold w-100 py-3 fs-5">Configuraciones</a>
+                </div>
 
-        <div class="col-12 col-md-4">
-            <a href="/Configuraciones" class="btn btn-gold w-100 py-3 fs-5">Configuraciones</a>
-        </div>
+                <div class="col-12 col-md-4">
+                    <a asp-controller="Reportes" asp-action="Index" class="btn btn-gold w-100 py-3 fs-5">Reportes Mensuales</a>
+                </div>
+            }
 
-        <div class="col-12 col-md-4">
-            <a href="/Usuarios" class="btn btn-gold w-100 py-3 fs-5">Usuarios</a>
-        </div>
+            // -----------------------------------------------------------------
+            // 2. MÓDULOS DEL CAJERO (Solo Cajas)
+            // -----------------------------------------------------------------
+            @if (User.IsInRole("Cajero"))
+            {
+                <div class="col-12 col-md-4">
+                    <a asp-controller="Cajas" asp-action="Index" class="btn btn-gold w-100 py-3 fs-5">Cajas</a>
+                </div>
+            }
 
-        <div class="col-12 col-md-4">
-            <a href="/Reportes" class="btn btn-gold w-100 py-3 fs-5">Reportes Mensuales</a>
-        </div>
+            // -----------------------------------------------------------------
+            // 3. MÓDULOS EXCLUSIVOS DEL ADMINISTRADOR (Usuarios)
+            // -----------------------------------------------------------------
+            @if (User.IsInRole("Administrador"))
+            {
+                <div class="col-12 col-md-4">
+                    <a asp-controller="Usuarios" asp-action="Index" class="btn btn-gold w-100 py-3 fs-5">Usuarios</a>
+                </div>
+            }
+
+            // Nota: Se asume que no hay necesidad de 'ReservaLiquidez' en esta lista
+            // Si la necesitas, agrégala dentro del if de Administrador.
+        }
+        else
+        {
+            <!-- Mensaje si un usuario sin sesión llega al Home -->
+            <div class="col-12 text-center mt-5">
+                <p class="lead">Por favor, <a asp-area="Identity" asp-page="/Account/Login">inicie sesión</a> para acceder a los módulos.</p>
+            </div>
+        }
 
     </div>
 </div>

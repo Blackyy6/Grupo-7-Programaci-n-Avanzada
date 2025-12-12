@@ -1,4 +1,8 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization; // NECESARIO
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_Grupo_7_Progra_Avanzada.Data;
@@ -6,26 +10,30 @@ using Proyecto_Grupo_7_Progra_Avanzada.Models;
 
 namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
 {
-    public class AuthController : Controller
+    // CLAVE: Renombrar la clase y autorizar solo para Admin/Contador
+    [Authorize(Roles = "Administrador, Contador")]
+    public class BitacoraController : Controller
     {
         private readonly AppDbContext _context;
 
-        public AuthController(AppDbContext context)
+        public BitacoraController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Bitacora
+        // GET: /Bitacora/Index
         public async Task<IActionResult> Index()
         {
             var eventos = await _context.Bitacora
+                // Corrección: Tu vista usa FechaDeEvento
                 .OrderByDescending(e => e.FechaDeEvento)
                 .ToListAsync();
 
             return View(eventos);
         }
 
-        // Método auxiliar para registrar eventos desde otros módulos
+        // Método auxiliar para registrar eventos (se mantiene igual, es correcto)
+        [ApiExplorerSettings(IgnoreApi = true)] // Oculta este método de documentación API
         public async Task RegistrarEvento(
             string tabla,
             string tipo,
@@ -36,6 +44,7 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
         {
             var evento = new Bitacora
             {
+                // ... (El resto del objeto Bitacora, asumiendo que tienes IdUsuario/UsuarioId)
                 TablaDeEvento = tabla,
                 TipoDeEvento = tipo,
                 FechaDeEvento = DateTime.Now,

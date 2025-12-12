@@ -73,8 +73,9 @@ builder.Services.AddControllersWithViews();
 // >>>>>>>>>> CORRECCIÓN AQUÍ: AGREGAR SERVICIOS RAZOR PAGES <<<<<<<<<<
 builder.Services.AddRazorPages();
 
-// BitacoraController como Servicio
-builder.Services.AddScoped<AuthController>();
+// CLAVE: CORRECCIÓN DEL NOMBRE DEL SERVICIO DE BITÁCORA
+// Debe ser BitacoraController (la clase que inyecta ReportesController), no AuthController.
+builder.Services.AddScoped<BitacoraController>();
 
 var app = builder.Build();
 
