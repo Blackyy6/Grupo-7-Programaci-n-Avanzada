@@ -6,8 +6,8 @@
 
 <h1>Editar Configuración</h1>
 
-<div class="card shadow p-4 mt-4">
-    <div class="card-header bg-warning text-dark text-center">
+<div class="card custom-card mt-4">
+    <div class="card-header custom-card-header-info text-center">
         <h2 class="h4 mb-0">Editar Configuración de Comercio</h2>
         <p class="mb-0">Comercio: @(Model.Comercio?.Nombre ?? "N/A")</p>
     </div>
@@ -76,7 +76,7 @@
             </div>
 
             <div class="form-group mt-4 text-center">
-                <button type="submit" class="btn btn-warning btn-lg mx-2 text-dark">
+                <button type="submit" class="btn btn-gold btn-lg mx-2 text-dark">
                     <i class="fas fa-save"></i> Guardar Cambios
                 </button>
                 <a asp-action="Index" class="btn btn-secondary btn-lg mx-2">

@@ -4,8 +4,8 @@
     ViewData["Title"] = "Editar Usuario";
 }
 
-<div class="card shadow p-4 mt-4">
-    <div class="card-header bg-warning text-dark text-center">
+<div class="card custom-card mt-4">
+    <div class="card-header custom-card-header-info text-center">
         <h1 class="h3 mb-0">Editar usuario: @Model.Nombres @Model.PrimerApellido</h1>
         <p class="mb-0">Solo los campos permitidos pueden ser modificados.</p>
     </div>
@@ -63,7 +63,7 @@
 
             <div class="mt-4 d-flex justify-content-between">
                 <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
-                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                <button type="submit" class="btn btn-gold">Guardar cambios</button>
             </div>
         </form>
     </div>
