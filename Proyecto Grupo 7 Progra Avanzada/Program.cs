@@ -74,7 +74,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 // BitacoraController como Servicio
-builder.Services.AddScoped<BitacoraController>();
+builder.Services.AddScoped<AuthController>();
 
 var app = builder.Build();
 

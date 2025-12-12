@@ -14,8 +14,8 @@ namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
         private readonly AppDbContext _context;
         // Se asume que tu AppDbContext tiene DbSets para Comercio, Caja, SinpePago, Reporte y Configuracion
 
-        private readonly BitacoraController _bitacora;
-        public ReportesController(AppDbContext context, BitacoraController bitacora)
+        private readonly AuthController _bitacora;
+        public ReportesController(AppDbContext context, AuthController bitacora)
         {
             _context = context;
             _bitacora = bitacora;

@@ -6,11 +6,11 @@ using Proyecto_Grupo_7_Progra_Avanzada.Models;
 
 namespace Proyecto_Grupo_7_Progra_Avanzada.Controllers
 {
-    public class BitacoraController : Controller
+    public class AuthController : Controller
     {
         private readonly AppDbContext _context;
 
-        public BitacoraController(AppDbContext context)
+        public AuthController(AppDbContext context)
         {
             _context = context;
         }
