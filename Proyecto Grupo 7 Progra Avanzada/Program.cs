@@ -79,6 +79,10 @@ builder.Services.AddScoped<BitacoraController>();
 
 var app = builder.Build();
 
+// Manejo de Errores
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
+app.UseExceptionHandler("/Error/General");
+
 // Configuración del pipeline HTTP
 if (!app.Environment.IsDevelopment())
 {

@@ -40,6 +40,10 @@ namespace Proyecto_Grupo_7_Progra_Avanzada
                 return NotFound();
             }
 
+            // Prueba de manejo de error: Provocar un NullReferenceException
+            string? texto = null;
+            int largo = texto.Length;
+
             return View(comercio);
         }
 
