@@ -1,28 +1,84 @@
 using Microsoft.EntityFrameworkCore;
 using Proyecto_Grupo_7_Progra_Avanzada.Controllers;
 using Proyecto_Grupo_7_Progra_Avanzada.Data;
+// =================================================================
+// USINGS REQUERIDOS
+// =================================================================
+using Microsoft.AspNetCore.Identity;
+using Proyecto_Grupo_7_Progra_Avanzada.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+// =================================================================
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar la conexi髇 a MySQL
+// Configurar la conexi贸n a MySQL
+var connectionString = builder.Configuration.GetConnectionString("MySqlConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
-        builder.Configuration.GetConnectionString("MySqlConnection"),
+        connectionString,
         new MySqlServerVersion(new Version(8, 0, 36))
     )
 );
 
+// =================================================================
+// 1. CONFIGURACI脫N DE IDENTITY
+// =================================================================
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 6;
+})
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+// Configuraci贸n de la cookie de aplicaci贸n
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
+
+// =================================================================
+// 2. CONFIGURACI脫N DE JWT para Autenticaci贸n de API
+// =================================================================
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var key = Encoding.ASCII.GetBytes(jwtSettings["SecretKey"] ?? "LlaveSecretaJWT_Avanzada_2025_#P7zH");
+
+builder.Services.AddAuthentication()
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key)
+    };
+});
 
 
 // Agregar servicios MVC
 builder.Services.AddControllersWithViews();
 
-//BitacoraController como Servicio
+// >>>>>>>>>> CORRECCI脫N AQU脥: AGREGAR SERVICIOS RAZOR PAGES <<<<<<<<<<
+builder.Services.AddRazorPages();
+
+// BitacoraController como Servicio
 builder.Services.AddScoped<BitacoraController>();
 
 var app = builder.Build();
 
-// Configuraci髇 del pipeline HTTP
+// Configuraci贸n del pipeline HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -32,10 +88,17 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+// =================================================================
+// 3. HABILITAR AUTENTICACI脫N Y AUTORIZACI脫N
+// =================================================================
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();
