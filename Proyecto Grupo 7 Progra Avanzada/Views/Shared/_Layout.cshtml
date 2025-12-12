@@ -19,18 +19,20 @@
 
 <body class="d-flex flex-column h-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-primary shadow-sm">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Banco Los Patitos</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-university me-2"></i>Banco Los Patitos
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavbar">
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="collapse navbar-collapse" id="menuNavbar">
 
                     <!-- ENLACES DE MÓDULOS (AUTORIZADOS) -->
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav ms-auto">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <!-- MÓDULOS DEL ADMINISTRADOR Y CONTADOR -->
@@ -93,7 +95,7 @@
         </main>
     </div>
 
-    <footer class="footer mt-auto py-3 border-top text-muted bg-light">
+    <footer class="footer-gold mt-auto border-top ">
         <div class="container">
             &copy; @DateTime.Now.Year - Banco Los Patitos - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

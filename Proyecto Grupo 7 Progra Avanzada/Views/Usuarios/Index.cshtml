@@ -4,10 +4,10 @@
     ViewData["Title"] = "Usuarios";
 }
 
-<h1>Usuarios registrados</h1>
+<h1 class="text-gold-700 fw-bold mb-4">Usuarios registrados</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Registrar nuevo usuario</a>
+    <a asp-action="Create" class="btn btn-gold">Registrar nuevo usuario</a>
 </p>
 
 @if (TempData["SuccessMessage"] != null)
@@ -18,70 +18,42 @@
     </div>
 }
 
-<table class="table table-striped table-hover">
+<table class="app-table table-hover">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombres)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrimerApellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SegundoApellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Identificacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CorreoElectronico)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeRegistro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeModificacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                Acciones
-            </th>
+            <th>@Html.DisplayNameFor(model => model.Nombres)</th>
+            <th>@Html.DisplayNameFor(model => model.PrimerApellido)</th>
+            <th>@Html.DisplayNameFor(model => model.SegundoApellido)</th>
+            <th>@Html.DisplayNameFor(model => model.Identificacion)</th>
+            <th>@Html.DisplayNameFor(model => model.CorreoElectronico)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaDeRegistro)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaDeModificacion)</th>
+            <th>@Html.DisplayNameFor(model => model.Estado)</th>
+            <th class="text-center">Acciones</th>
         </tr>
     </thead>
+
     <tbody>
-@foreach (var item in Model)
-{
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombres)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrimerApellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SegundoApellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Identificacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CorreoElectronico)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeRegistro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeModificacion)
-            </td>
-            <td>
-                @(item.Estado ? "Activo" : "Inactivo")
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdUsuario" class="btn btn-sm btn-warning">Editar</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Nombres)</td>
+                <td>@Html.DisplayFor(modelItem => item.PrimerApellido)</td>
+                <td>@Html.DisplayFor(modelItem => item.SegundoApellido)</td>
+                <td>@Html.DisplayFor(modelItem => item.Identificacion)</td>
+                <td>@Html.DisplayFor(modelItem => item.CorreoElectronico)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaDeRegistro)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaDeModificacion)</td>
+                <td>@(item.Estado ? "Activo" : "Inactivo")</td>
+
+                <td class="text-center">
+                    <a asp-action="Edit"
+                       asp-route-id="@item.IdUsuario"
+                       class="btn btn-gold btn-sm">
+                        Editar
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

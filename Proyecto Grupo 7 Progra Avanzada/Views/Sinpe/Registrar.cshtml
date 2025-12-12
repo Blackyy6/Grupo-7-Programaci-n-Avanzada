@@ -10,11 +10,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
+
 <div class="card shadow p-4 mt-4">
-    <div class="card-header bg-primary text-white text-center">
+    <div class="card-header custom-card-header-info text-center">
         <h1 class="h3 mb-0">Registrar Pago Electrónico (SINPE)</h1>
         <p class="mb-0">Complete todos los campos para realizar el pago.</p>
     </div>
+
     <div class="card-body">
 
         <form asp-action="Registrar">
@@ -24,19 +26,19 @@
             <div class="row">
                 <div class="col-md-6">
 
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="TelefonoOrigen" class="form-label">Teléfono de Origen</label>
                         <input asp-for="TelefonoOrigen" class="form-control" placeholder="Ej: 88888888" />
                         <span asp-validation-for="TelefonoOrigen" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="NombreOrigen" class="form-label">Nombre de Origen</label>
                         <input asp-for="NombreOrigen" class="form-control" placeholder="Nombre completo del remitente" />
                         <span asp-validation-for="NombreOrigen" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="Monto" class="form-label">Monto</label>
                         <input asp-for="Monto" class="form-control" placeholder="Ej: 5000.00" />
                         <span asp-validation-for="Monto" class="text-danger"></span>
@@ -46,20 +48,20 @@
 
                 <div class="col-md-6">
 
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="TelefonoDestinatario" class="form-label">Teléfono del Destinatario (Caja)</label>
                         <input asp-for="TelefonoDestinatario" class="form-control" placeholder="Debe ser el SINPE de una caja activa" />
                         <span asp-validation-for="TelefonoDestinatario" class="text-danger"></span>
                         <small class="form-text text-muted">Debe corresponder al teléfono SINPE de una caja activa.</small>
                     </div>
 
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="NombreDestinatario" class="form-label">Nombre del Destinatario</label>
                         <input asp-for="NombreDestinatario" class="form-control" placeholder="Nombre del comercio o caja" />
                         <span asp-validation-for="NombreDestinatario" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="Descripcion" class="form-label">Descripción (Opcional)</label>
                         <input asp-for="Descripcion" class="form-control" placeholder="Detalle del pago" />
                         <span asp-validation-for="Descripcion" class="text-danger"></span>
@@ -68,14 +70,16 @@
                 </div>
             </div>
 
-            <div class="form-group mt-4 text-center">
-                <button type="submit" class="btn btn-success btn-lg mx-2">
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-gold btn-lg mx-2">
                     <i class="fas fa-money-check-alt"></i> Registrar Pago
                 </button>
-                <a asp-action="Index" asp-controller="Home" class="btn btn-secondary btn-lg mx-2">
+
+                <a asp-action="Index" asp-controller="Home" class="btn btn-gold-outline btn-lg mx-2">
                     <i class="fas fa-arrow-alt-circle-left"></i> Regresar al Inicio
                 </a>
             </div>
+
         </form>
     </div>
 </div>
@@ -83,5 +87,7 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
     }
 }
