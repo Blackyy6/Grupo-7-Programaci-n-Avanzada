@@ -2,20 +2,33 @@
 
 @{
     ViewData["Title"] = "Cajas Registradas";
+    // CLAVE: Obtener la bandera del controlador
+    bool esCajero = (bool)(ViewData["EsCajero"] ?? false);
 }
 
 <div class="container mt-4">
 
-    <h1 class="section-title mb-4">Cajas Registradas</h1>
+    <h1 class="section-title mb-4">@ViewData["Title"]</h1>
 
     <div class="d-flex gap-2 mb-3">
-        <a asp-action="Create" class="btn btn-gold">
-            <i class="bi bi-plus-circle"></i> Registrar Nueva Caja
-        </a>
 
-        <a asp-controller="Comercios" asp-action="Index" class="btn btn-outline-secondary">
-            <i class="bi bi-shop"></i> Volver a Comercios
-        </a>
+        <!-- BOTÓN 1: REGISTRAR NUEVA CAJA -->
+        <!-- REGLA: Ocultar si es Cajero -->
+        @if (!esCajero)
+        {
+            <a asp-action="Create" class="btn btn-gold">
+                <i class="bi bi-plus-circle"></i> Registrar Nueva Caja
+            </a>
+        }
+
+        <!-- BOTÓN 2: VOLVER A COMERCIOS -->
+        <!-- REGLA: Ocultar si es Cajero -->
+        @if (!esCajero)
+        {
+            <a asp-controller="Comercios" asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-shop"></i> Volver a Comercios
+            </a>
+        }
     </div>
 
     <div class="card shadow-sm rounded-4">
@@ -62,43 +75,47 @@
                             <td class="text-center">
                                 <div class="btn-group">
 
-                                    <a asp-action="Edit"
-                                       asp-route-id="@item.IdCaja"
-                                       class="btn btn-sm btn-gold">
-                                        Editar
-                                    </a>
+                                    <!-- INICIO DE ACCIONES DE CRUD (EDITAR / ELIMINAR / BITÁCORA) -->
+                                    <!-- REGLA: Ocultar si es Cajero -->
+                                @if (!esCajero)
+                                    {
+                                        <a asp-action="Edit"
+                                                               asp-route-id="@item.IdCaja"
+                                                               class="btn btn-sm btn-gold">
+                                            Editar
+                                        </a>
 
+                                        <a asp-area=""
+                                                               asp-controller="Bitacora"
+                                                               class="btn btn-sm btn-secondary">
+                                            Bitácora
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                                               asp-route-id="@item.IdCaja"
+                                                               class="btn btn-sm btn-danger">
+                                            Eliminar
+                                        </a>
+                                    }
+                                    <!-- FIN ACCIONES DE CRUD -->
+                                    <!-- ACCIONES PERMITIDAS PARA EL CAJERO -->
                                     <a asp-action="Details"
-                                       asp-route-id="@item.IdCaja"
-                                       class="btn btn-sm btn-gold-outline">
+                                                           asp-route-id="@item.IdCaja"
+                                                           class="btn btn-sm btn-gold-outline">
                                         Detalles
                                     </a>
 
                                     <a asp-controller="Sinpe"
-                                       asp-action="VerPorCaja"
-                                       asp-route-telefono="@item.TelefonoSINPE"
-                                       class="btn btn-sm btn-gold-outline">
+                                                           asp-action="VerPorCaja"
+                                                           class="btn btn-sm btn-gold-outline">
                                         SINPE
-                                    </a>
-
-                                    <a asp-area=""
-                                       asp-controller="Bitacora"
-                                       asp-action="Index"
-                                       class="btn btn-sm btn-secondary">
-                                        Bitácora
-                                    </a>
-
-                                    <a asp-action="Delete"
-                                       asp-route-id="@item.IdCaja"
-                                       class="btn btn-sm btn-danger">
-                                        Eliminar
                                     </a>
 
                                 </div>
                             </td>
 
                         </tr>
-                                        }
+                    }
                 </tbody>
             </table>
         </div>
